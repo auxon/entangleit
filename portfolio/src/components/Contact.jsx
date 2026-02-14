@@ -26,14 +26,17 @@ export default function Contact() {
               LinkedIn
             </a>
             <a
-              href="https://github.com/richardhein"
+              href="https://github.com/EntangleIT"
               target="_blank"
               rel="noopener noreferrer"
             >
-              GitHub
+              GitHub (EntangleIT)
             </a>
-            <a href="https://entangleit.com" target="_blank" rel="noopener noreferrer">
-              EntangleIT
+            <a href="https://github.com/auxon" target="_blank" rel="noopener noreferrer">
+              GitHub (Richard Hein)
+            </a>
+            <a href="https://github.com/richardhein" target="_blank" rel="noopener noreferrer">
+              GitHub (Richard Hein)
             </a>
           </div>
         </div>
