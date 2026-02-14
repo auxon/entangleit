@@ -35,9 +35,6 @@ export default function Contact() {
             <a href="https://github.com/auxon" target="_blank" rel="noopener noreferrer">
               GitHub (Richard Hein)
             </a>
-            <a href="https://github.com/richardhein" target="_blank" rel="noopener noreferrer">
-              GitHub (Richard Hein)
-            </a>
           </div>
         </div>
       </div>
