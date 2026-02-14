@@ -15,7 +15,7 @@ npm run dev
 npm run build
 ```
 
-Output is in the `dist/` directory.
+Output is in the `public/` directory.
 
 ## Deploy to Cloudflare Pages
 
@@ -26,7 +26,7 @@ Output is in the `dist/` directory.
 3. Select your repository
 4. Configure build settings:
    - **Build command:** `npm run build`
-   - **Build output directory:** `dist`
+   - **Build output directory:** `public` (or leave blank — Cloudflare often defaults to `public`)
    - **Root directory:** `portfolio` (if repo root is above this folder)
 5. Deploy
 
@@ -36,9 +36,9 @@ Output is in the `dist/` directory.
 npm install -g wrangler
 npx wrangler pages project create richard-hein-portfolio
 npm run build
-npx wrangler pages deploy dist --project-name=richard-hein-portfolio
+npx wrangler pages deploy public --project-name=richard-hein-portfolio
 ```
 
 ### Option 3: Direct upload
 
-Build the project and upload the `dist` folder via the Cloudflare Pages dashboard.
+Build the project and upload the `public` folder via the Cloudflare Pages dashboard.
