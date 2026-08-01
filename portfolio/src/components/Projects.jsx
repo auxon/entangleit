@@ -8,6 +8,27 @@ const projects = [
     link: 'https://entangleit.com',
   },
   {
+    name: 'FactoryForge',
+    description: 'Factorio-inspired iOS factory automation game with AI-driven factory management, from basic mining to full rocket production',
+    tech: ['Swift', 'iOS', 'AI', 'Node.js'],
+    link: 'https://entangleit.com/factoryforge',
+    repo: 'https://github.com/auxon/factoryforge',
+  },
+  {
+    name: 'Rosetta Stone of Guitar',
+    description: 'Native iOS app teaching the Rosetta Stone of Guitar method via interactive fretboard visualization, pattern recognition, and audio playback',
+    tech: ['Swift', 'SwiftUI', 'iOS', 'StoreKit'],
+    link: 'https://entangleit.com/rosettaStoneOfGuitar',
+    repo: 'https://github.com/auxon/rosettastoneofguitar',
+  },
+  {
+    name: 'SignFlow',
+    description: 'Learn American Sign Language with interactive 3D hands, structured lessons, camera practice, and spaced repetition (also known as ASLTutor)',
+    tech: ['React', 'TypeScript', 'Three.js', 'MediaPipe', 'PWA'],
+    link: 'https://entangleit.com/asltutor',
+    repo: 'https://github.com/auxon/ASLTutor',
+  },
+  {
     name: 'Project Professor',
     description: 'LLM RAG Generative AI chatbot for digital publishing with multimodal chat',
     tech: ['Python', 'LangChain', 'vLLM', 'React'],
@@ -46,15 +67,29 @@ export default function Projects() {
                   <span key={j}>{t}</span>
                 ))}
               </div>
-              {proj.link && (
-                <a
-                  href={proj.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="project-link"
-                >
-                  View →
-                </a>
+              {(proj.link || proj.repo) && (
+                <div className="project-links">
+                  {proj.link && (
+                    <a
+                      href={proj.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="project-link"
+                    >
+                      {proj.repo ? 'Live Demo →' : 'View →'}
+                    </a>
+                  )}
+                  {proj.repo && (
+                    <a
+                      href={proj.repo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="project-link"
+                    >
+                      GitHub →
+                    </a>
+                  )}
+                </div>
               )}
             </article>
           ))}

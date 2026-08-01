@@ -329,6 +329,12 @@ a:hover {
   color: var(--text-muted);
 }
 
+.project-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
 .project-link {
   font-size: 0.85rem;
 }
