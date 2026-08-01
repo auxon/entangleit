@@ -1,6 +1,3 @@
-name = "entangleit"
+name = "richard-hein-portfolio"
+pages_build_output_dir = "./public"
 compatibility_date = "2025-02-14"
-
-[assets]
-directory = "./public"
-not_found_handling = "single-page-application"
