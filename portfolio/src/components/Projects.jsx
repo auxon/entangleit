@@ -25,7 +25,7 @@ const projects = [
     name: 'SignFlow',
     description: 'Learn American Sign Language with interactive 3D hands, structured lessons, camera practice, and spaced repetition (also known as ASLTutor)',
     tech: ['React', 'TypeScript', 'Three.js', 'MediaPipe', 'PWA'],
-    link: 'https://entangleit.com/asltutor',
+    link: 'https://entangleit.com/ASLTutor',
     repo: 'https://github.com/auxon/ASLTutor',
   },
   {
