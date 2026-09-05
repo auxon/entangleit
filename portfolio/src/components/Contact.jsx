@@ -100,9 +100,11 @@ export default function Contact({ variant = 'home' }) {
           </form>
 
           <div className="contact-links secondary">
-            <a href={RESUME} target="_blank" rel="noopener noreferrer">
-              Resume (PDF)
-            </a>
+            {variant === 'about' && (
+              <a href={RESUME} target="_blank" rel="noopener noreferrer">
+                Resume (PDF)
+              </a>
+            )}
             <a href={LINKEDIN} target="_blank" rel="noopener noreferrer">
               LinkedIn
             </a>

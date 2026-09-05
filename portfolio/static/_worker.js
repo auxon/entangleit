@@ -42,6 +42,11 @@ export default {
 
     const asset = await env.ASSETS.fetch(request);
     if (asset.status !== 404) return asset;
+    // Never SPA-fallback images or other static files — LinkedIn/Twitter
+    // unfurls turn HTML-for-png into a blank white preview.
+    if (ASL_STATIC_EXT.test(pathname) || pathname.endsWith('.pdf')) {
+      return new Response('Not found', { status: 404 });
+    }
     return env.ASSETS.fetch(new URL('/index.html', url));
   },
 };

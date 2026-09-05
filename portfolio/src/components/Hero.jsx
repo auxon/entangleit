@@ -7,7 +7,7 @@ export default function Hero({ navigate }) {
       <div className="hero-bg" aria-hidden="true" />
       <div className="hero-content">
         <p className="hero-greeting">Richard Hein · {TITLE}</p>
-        <h1 className="hero-name">Need Stripe on Cloudflare this week?</h1>
+        <h1 className="hero-name">Need card payments live on Cloudflare this week?</h1>
         <p className="hero-summary">
           $750 installs WitnessCam or SignFlow in 48 hours.
           $2,500 buys a custom Cloudflare + Stripe week.
