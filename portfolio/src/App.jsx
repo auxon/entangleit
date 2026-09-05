@@ -20,8 +20,8 @@ function setMeta(title, description) {
 function Home({ navigate }) {
   useEffect(() => {
     setMeta(
-      `EntangleIT — Stripe on Cloudflare`,
-      `Need card payments live on Cloudflare this week? Founder, EntangleIT. $750 WitnessCam or SignFlow install in 48 hours, $2,500 custom CF+Stripe week, or $149 DIY.`
+      `EntangleIT — Card payments live on Cloudflare`,
+      `Need card payments live on Cloudflare this week? $750 CARD install, $149 DIY kit, or free Leak diagnosis.`
     )
   }, [])
 
