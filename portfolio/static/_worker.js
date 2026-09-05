@@ -1,6 +1,7 @@
 /**
  * Cloudflare Pages Advanced Mode worker for entangleit.com.
- * Routes /ASLTutor/* to the SignFlow SPA and everything else to the portfolio SPA.
+ * Routes /ASLTutor/* to the SignFlow SPA. Portfolio SPA owns / and /about
+ * (and any other non-asset path) via the index.html fallback.
  *
  * Uses env.ASSETS (Pages asset binding) — required for Advanced Mode.
  */

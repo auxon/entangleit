@@ -1,6 +1,12 @@
-# Richard Hein - Portfolio
+# EntangleIT
 
-A React portfolio website for Richard Hein, Senior AI Engineer and Founder at EntangleIT Inc.
+Vite React SPA for [entangleit.com](https://entangleit.com). Homepage is products and CARD. Résumé, timeline, and older projects live on `/about`.
+
+## Routes
+
+- `/` — pain, CARD, $149 DIY, Leak, live proof grid
+- `/about` — founder copy, experience, skills, archive
+- `/resume.pdf` — static PDF (do not remove)
 
 ## Development
 
