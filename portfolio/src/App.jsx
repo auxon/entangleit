@@ -20,8 +20,8 @@ function setMeta(title, description) {
 function Home({ navigate }) {
   useEffect(() => {
     setMeta(
-      `EntangleIT — Card payments live on Cloudflare`,
-      `Need card payments live on Cloudflare this week? $750 CARD install, $149 DIY kit, or free Leak diagnosis.`
+      `EntangleIT — Card payments on Cloudflare`,
+      `Done-for-you $750 / $2.5k · DIY $149 · live demos on entangleit.com`
     )
   }, [])
 
