@@ -1,25 +1,24 @@
 import React from 'react'
+import { TITLE, YEARS } from '../site'
 
 export default function About() {
   return (
     <section id="about" className="section">
       <div className="section-inner">
-        <h2 className="section-title">About</h2>
+        <p className="section-kicker">{TITLE}</p>
+        <h2 className="section-title">Richard Hein</h2>
         <div className="about-content">
           <p>
-            Experienced full-stack software developer and cloud architect with 20+ years
-            of experience in building scalable applications, leading R&D projects, and
-            designing AI-driven solutions.
+            Founder of EntangleIT. {YEARS} years building scalable applications,
+            AI-driven solutions, and the Cloudflare + Stripe stack shipping on this origin.
           </p>
           <p>
-            Expertise in multiple programming languages, frameworks, and cloud technologies.
-            Proven success in delivering AI and blockchain-based applications, digital
-            publishing solutions, and real-time conversational systems.
+            Greater Ottawa, Canada. Full-stack software developer and cloud architect —
+            Workers, Checkout, webhooks, Durable Objects, and the products above the résumé.
           </p>
           <p>
-            Highly skilled in AI integration, security, cloud infrastructure, and blockchain
-            technologies. Technical lead for LLM RAG Generative AI systems, architecting
-            solutions from UI through middleware to backend.
+            Technical lead for LLM RAG systems when the job needs it, from UI through
+            middleware to backend. The paid work now is getting Stripe live on Cloudflare.
           </p>
         </div>
       </div>

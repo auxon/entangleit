@@ -1,40 +1,32 @@
 import React from 'react'
+import { DIY_KIT, TITLE } from '../site'
 
-export default function Hero() {
+export default function Hero({ navigate }) {
   return (
     <section id="hero" className="hero">
       <div className="hero-bg" aria-hidden="true" />
       <div className="hero-content">
-        <p className="hero-greeting">// Hello, I'm</p>
-        <h1 className="hero-name">Richard Hein</h1>
-        <p className="hero-title">
-          Senior AI Engineer & Founder
-        </p>
-        <p className="hero-company">EntangleIT Inc.</p>
-        <p className="hero-location">Greater Ottawa, Canada</p>
+        <p className="hero-greeting">Richard Hein · {TITLE}</p>
+        <h1 className="hero-name">Need Stripe on Cloudflare this week?</h1>
         <p className="hero-summary">
-          28+ years building scalable applications, AI-driven solutions,
-          and blockchain technology.
+          $750 installs WitnessCam or SignFlow in 48 hours.
+          $2,500 buys a custom Cloudflare + Stripe week.
+          Or take the $149 DIY kit and ship it yourself.
         </p>
         <div className="hero-cta">
-          <a href="#contact" className="btn btn-primary">
-            Get in Touch
-          </a>
+          <button type="button" className="btn btn-primary" onClick={() => navigate('/#card')}>
+            CARD / Get in Touch
+          </button>
           <a
-            href="/resume.pdf"
+            href={DIY_KIT}
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-secondary"
           >
-            Resume
+            $149 DIY
           </a>
-          <a
-            href="https://www.linkedin.com/in/richardhein/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-secondary"
-          >
-            LinkedIn
+          <a href="/leak/" className="btn btn-ghost">
+            Free Leak diagnosis
           </a>
         </div>
       </div>
