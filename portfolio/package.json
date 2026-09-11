@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:pages": "vite build && node ../../vibecoded/scripts/build-vibecoded-only.mjs",
     "preview": "vite preview",
-    "deploy": "npm run build && npx wrangler pages deploy public --project-name=richard-hein-portfolio"
+    "deploy": "npm run build:pages && npx wrangler pages deploy public --project-name=richard-hein-portfolio"
   },
   "dependencies": {
     "react": "^18.2.0",

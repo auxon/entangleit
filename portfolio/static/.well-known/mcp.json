@@ -1,0 +1,19 @@
+{
+  "name": "com.entangleit/agentpay",
+  "title": "agentpay — card-funded wallets for AI agents",
+  "description": "Prepaid USD wallets for AI agents: card top-ups via Stripe, scoped keys with daily limits and approval gates, and BSV x402 payments to paid APIs — over MCP.",
+  "version": "0.1.0",
+  "homepage": "https://entangleit.com/agentpay/",
+  "registry": "https://registry.modelcontextprotocol.io/v0.1/servers?search=com.entangleit/agentpay",
+  "transports": [
+    {
+      "type": "streamable-http",
+      "url": "https://entangleit.com/api/agentpay/mcp"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "description": "Optional for public discovery tools; wallet tools require an agent key (agp_…) minted at https://entangleit.com/agentpay/"
+  },
+  "contact": "rah@entangleit.com"
+}
