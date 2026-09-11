@@ -67,19 +67,26 @@ GET query strings and POST JSON bodies (64KB cap) pass through. Route paths supp
 | `POST /api/services/:slug/admin` | `X-Admin-Key` | `update`, `pause`, `resume`, `relist`, `rotate`, `usage`, `delete` |
 | `GET /g/:slug/manifest` | — | Registry manifest |
 | `GET/POST /g/:slug/:tool` | x402 | Paid proxy endpoint |
+| `POST /api/services/:slug/watches` | `X-Admin-Key` | Add a monitored endpoint (`url` or own `route`) |
+| `GET /api/services/:slug/watches` | `X-Admin-Key` | Watches with status + quota |
+| `PATCH /api/services/:slug/watches/:id` | `X-Admin-Key` | Label, webhook, expectation, pause |
+| `DELETE /api/services/:slug/watches/:id` | `X-Admin-Key` | Remove a watch |
+| `POST /api/services/:slug/watches/:id/check` | `X-Admin-Key` | Run a check now |
+| `GET /watch/:id` | — | Public status page (unguessable id) |
 
 Rotate the admin key with `{"action":"rotate"}` — the old key stops working immediately. Paused services 404 for both proxy and directory.
 
 ## Hosting tiers
 
-Every service starts on **Free**. **Pro ($9/mo)** is a Stripe subscription.
+Every service starts on **Free**. **Pro ($9/mo, or $86.40/yr)** is a Stripe subscription — pass `{"interval":"year"}` to the checkout action for annual.
 
-| | Free | Pro ($9/mo) |
+| | Free | Pro ($9/mo · $86.40/yr) |
 | --- | --- | --- |
 | Routes per service | 5 | 100 |
 | Aggregate calls/sats | yes | yes |
 | Per-call analytics log | — | yes |
 | CSV export | — | yes |
+| Uptime monitoring | 1 endpoint, daily, no alerts | 10 endpoints, 15-min checks, email + webhook alerts |
 | Listed in x402market | yes | yes |
 
 Upgrade from the admin API:
@@ -87,10 +94,23 @@ Upgrade from the admin API:
 ```bash
 curl -s -X POST .../api/services/<slug>/admin \
   -H 'X-Admin-Key: …' -H 'content-type: application/json' \
-  -d '{"action":"checkout"}'     # -> { url } for the owner to pay
+  -d '{"action":"checkout","interval":"year"}'   # -> { url } for the owner to pay
 ```
 
 `{"action":"portal"}` opens billing management; `{"action":"usage"}` returns recent calls (Pro). Exceeding Free limits returns `402 { code: "plan_limit", upgrade }`.
+
+## Uptime monitoring (Watch)
+
+Every paid route is watched automatically from registration: the gateway probes it like a buyer every 15 minutes (Pro) or daily (Free) and validates the 402 challenge. When an endpoint stops challenging, breaks, or its price/payTo moves against the observed baseline, the owner gets an email and/or webhook (`watch.down`, `watch.recovered`, `watch.terms_changed`) — but only on Pro; Free shows status in the dashboard without alerts.
+
+```bash
+# watch your own route by name, or any https URL
+curl -s -X POST .../api/services/<slug>/watches \
+  -H 'X-Admin-Key: …' -H 'content-type: application/json' \
+  -d '{"route":"forecast","label":"prod forecast","webhookUrl":"https://example.com/hook"}'
+```
+
+Each watch has a public status page with uptime and recent checks. A missed tick never loses state — the next run picks up where the last left off — and history is pruned to 7 days (Free) or 90 days (Pro).
 
 ## Security model
 
@@ -120,3 +140,15 @@ The caller gets a 502 with the upstream status; the payment isn't settled unless
 ### Can I price in USD?
 
 Pricing is defined in sats per route. Agentpay converts from the buyer's USD balance at the configured rate.
+
+### How is Watch different from uptime monitoring I already have?
+
+Generic monitors check that a URL returns 200. Watch checks what a *buyer* sees: a valid 402 challenge with the right price and payTo. An endpoint can be "up" while silently not charging — Watch catches exactly that.
+
+### Do alerts work without email?
+
+Yes. Set `webhookUrl` on the watch and events arrive as JSON POSTs (`watch.down`, `watch.recovered`, `watch.terms_changed`). Email needs the operator's mailer configured; webhooks always work.
+
+### Can I monitor endpoints that aren't on the gateway?
+
+Yes, on Pro: any public `https://` URL, up to 10 watched endpoints per service. The probe only ever sends unsigned GETs and never follows redirects, so pointing it at third-party APIs is safe.
