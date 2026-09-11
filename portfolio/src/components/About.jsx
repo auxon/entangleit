@@ -18,7 +18,8 @@ export default function About() {
           </p>
           <p>
             Technical lead for LLM RAG systems when the job needs it, from UI through
-            middleware to backend. The paid work now is getting Stripe live on Cloudflare.
+            middleware to backend. The work now is agent-first: wallets, paid APIs,
+            discovery, and the software factory that ships them.
           </p>
         </div>
       </div>

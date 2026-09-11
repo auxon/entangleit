@@ -9,7 +9,7 @@ import Archive from './components/Archive'
 import Contact from './components/Contact'
 import Nav from './components/Nav'
 import { useRoute } from './route'
-import { TITLE } from './site'
+import { SITE_DESCRIPTION, SITE_TITLE, TITLE } from './site'
 
 function setMeta(title, description) {
   document.title = title
@@ -19,10 +19,7 @@ function setMeta(title, description) {
 
 function Home({ navigate }) {
   useEffect(() => {
-    setMeta(
-      `EntangleIT — Card payments on Cloudflare`,
-      `Done-for-you $750 / $2.5k · DIY $149 · live demos on entangleit.com`
-    )
+    setMeta(SITE_TITLE, SITE_DESCRIPTION)
   }, [])
 
   return (

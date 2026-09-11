@@ -2,17 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { EMAIL, LINKEDIN, MAILTO, RESUME } from '../site'
 
 const offerOptions = [
-  { value: 'install', label: '$750 WitnessCam or SignFlow install (48h)' },
-  { value: 'week', label: '$2,500 custom CF + Stripe week' },
+  { value: 'agent-api', label: '$750 agent-ready API (48h)' },
+  { value: 'factory-week', label: '$2,500 software factory week' },
   { value: 'other', label: 'Something else' },
 ]
 
 function offerFromLocation() {
-  if (typeof window === 'undefined') return 'install'
+  if (typeof window === 'undefined') return 'agent-api'
   const fromQuery = new URLSearchParams(window.location.search).get('offer')
   const fromHash = new URLSearchParams(window.location.hash.split('?')[1] || '').get('offer')
   const value = fromQuery || fromHash
-  return offerOptions.some((o) => o.value === value) ? value : 'install'
+  return offerOptions.some((o) => o.value === value) ? value : 'agent-api'
 }
 
 export default function Contact({ variant = 'home' }) {
@@ -26,11 +26,11 @@ export default function Contact({ variant = 'home' }) {
     }
     window.addEventListener('hashchange', sync)
     window.addEventListener('popstate', sync)
-    window.addEventListener('card-offer', onOffer)
+    window.addEventListener('factory-offer', onOffer)
     return () => {
       window.removeEventListener('hashchange', sync)
       window.removeEventListener('popstate', sync)
-      window.removeEventListener('card-offer', onOffer)
+      window.removeEventListener('factory-offer', onOffer)
     }
   }, [])
 
@@ -38,7 +38,7 @@ export default function Contact({ variant = 'home' }) {
     event.preventDefault()
     const data = new FormData(event.target)
     const selected = offerOptions.find((o) => o.value === data.get('offer'))
-    const subject = encodeURIComponent(`CARD — ${selected?.label || data.get('offer')} — ${data.get('name')}`)
+    const subject = encodeURIComponent(`EntangleIT — ${selected?.label || data.get('offer')} — ${data.get('name')}`)
     const body = encodeURIComponent(
       [
         `Name: ${data.get('name')}`,
@@ -59,8 +59,8 @@ export default function Contact({ variant = 'home' }) {
         <div className="contact-content">
           <p>
             {variant === 'about'
-              ? 'Email is the catch. Installs, custom weeks, or anything else.'
-              : 'Book a $750 install or a $2,500 week. Email is the catch — the form opens your mail client.'}
+              ? 'Email is the catch. Put an API on the agent rails, book a factory week, or ask about anything else.'
+              : 'Book a 48-hour agent-ready API or a $2,500 factory week. Email is the catch — the form opens your mail client.'}
           </p>
           <p className="contact-email">
             <a href={MAILTO}>{EMAIL}</a>

@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react'
 
 const navItems = [
-  { href: '/leak/', label: 'Leak' },
   { href: '/#products', label: 'Products' },
-  { href: '/#card', label: 'CARD' },
+  { href: '/#factory', label: 'Factory' },
+  { href: '/agentpay/', label: 'agentpay' },
+  { href: '/x402market/', label: 'x402market' },
+  { href: '/x402gateway', label: 'x402gateway' },
+  { href: '/vibecoded/', label: 'Vibecoded' },
+  { href: '/bitcoinzip/', label: 'BitcoinZip' },
+  { href: '/leak/', label: 'Leak' },
   { href: '/about', label: 'About' },
 ]
 

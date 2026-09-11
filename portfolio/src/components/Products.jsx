@@ -5,9 +5,12 @@ export default function Products() {
   return (
     <section id="products" className="section">
       <div className="section-inner wide">
+        <p className="section-kicker">Agent first</p>
         <h2 className="section-title">Live proof</h2>
         <p className="section-lead">
-          Shipping on this origin. Leak first — free diagnosis, then the rest of the stack.
+          Every product here runs on this origin — wallets, gateways, markets, and paid
+          APIs for agents first, then the rest of the factory: monitoring, evidence,
+          rooms, and bounties.
         </p>
         <div className="products-grid">
           {liveProducts.map((product) => (
