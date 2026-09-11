@@ -1,0 +1,16 @@
+# entangleit.com
+# Software for an agent economy — humans and AI crawlers are both welcome.
+
+User-agent: *
+Allow: /
+
+# Token-scoped surfaces stay out of the index.
+Disallow: /x402gateway/dashboard
+Disallow: /reports/
+Disallow: /attestations/
+
+# AI assistants are explicitly welcome (covered by the group above).
+# GPTBot · ChatGPT-User · OAI-SearchBot · ClaudeBot · Claude-Web · anthropic-ai
+# PerplexityBot · Google-Extended · Applebot-Extended · cohere-ai · Bytespider · CCBot
+
+Sitemap: https://entangleit.com/sitemap.xml

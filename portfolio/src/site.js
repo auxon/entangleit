@@ -142,7 +142,6 @@ export const archiveProjects = [
     description:
       'Factorio-inspired iOS factory automation game with AI-driven factory management, from basic mining to full rocket production.',
     tech: ['Swift', 'iOS', 'AI', 'Node.js'],
-    link: 'https://entangleit.com/factoryforge',
     repo: 'https://github.com/auxon/factoryforge',
   },
   {
@@ -150,7 +149,6 @@ export const archiveProjects = [
     description:
       'Native iOS app teaching the Rosetta Stone of Guitar method via interactive fretboard visualization, pattern recognition, and audio playback.',
     tech: ['Swift', 'SwiftUI', 'iOS', 'StoreKit'],
-    link: 'https://entangleit.com/rosettaStoneOfGuitar',
     repo: 'https://github.com/auxon/rosettastoneofguitar',
   },
   {
