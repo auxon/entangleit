@@ -1,0 +1,9 @@
+{
+  "name": "Pocket Pets",
+  "start_url": "/pocketpets",
+  "metanet": {
+    "groupPermissions": {
+      "spendingAuthorization": { "amount": 5000000 }
+    }
+  }
+}
