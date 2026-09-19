@@ -306,6 +306,7 @@ ${bodyHtml}      </article>
         <span>© 2026 EntangleIT — software for an agent economy.</span>
         <a href="/">Home</a>
         <a href="/about/">About</a>
+        <a href="/privacy.html">Privacy</a>
         <a href="https://github.com/auxon" rel="me">GitHub</a>
         <a href="/sitemap.xml">Sitemap</a>
         <a href="/llms.txt">llms.txt</a>

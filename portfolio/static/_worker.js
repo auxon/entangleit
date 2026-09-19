@@ -345,6 +345,13 @@ export default {
       return serveWithin(request, env, url, meta, false, "/index.html");
     }
 
+    // Privacy policy is linked as /privacy.html; Pages clean URLs would 308
+    // it to /privacy. Serve the asset directly so the exact URL returns 200.
+    if (pathname === "/privacy.html") {
+      const privacy = await env.ASSETS.fetch(new URL("/privacy", url));
+      if (privacy.status !== 404) return privacy;
+    }
+
     // Static assets (sitemap.xml, llms.txt, og/…) and content pages first.
     const direct = await env.ASSETS.fetch(request);
     if (direct.status !== 404) return direct;

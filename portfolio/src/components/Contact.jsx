@@ -114,6 +114,7 @@ export default function Contact({ variant = 'home' }) {
             <a href="https://github.com/auxon" target="_blank" rel="noopener noreferrer">
               GitHub (Richard Hein)
             </a>
+            <a href="/privacy.html">Privacy</a>
           </div>
         </div>
       </div>

@@ -125,6 +125,14 @@ async function runSuite() {
     return `200 start_url ${parsed.start_url}`;
   });
 
+  await check("privacy policy", async () => {
+    const res = await get("/privacy.html");
+    assert(res.status === 200, `status ${res.status} (redirect or missing?)`);
+    assert(res.contentType.includes("text/html"), `content-type ${res.contentType}`);
+    assert(res.body.includes("Privacy Policy"), "no policy content");
+    return `200 text/html ${res.bytes}B`;
+  });
+
   for (const mount of MOUNTS) {
     await check(`mount ${mount}`, async () => {
       const res = await get(`/${mount}/`);
