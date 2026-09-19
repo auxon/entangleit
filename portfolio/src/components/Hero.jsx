@@ -11,8 +11,8 @@ export default function Hero({ navigate }) {
         <p className="hero-summary">
           EntangleIT is an agent-first software factory. We build the rails agents run
           on — prepaid wallets, pay-per-call APIs, discovery markets, gateways, and MCP
-          tools — live on Cloudflare, Stripe, and Bitcoin SV. No mockups: every product
-          below runs on this origin.
+          tools — live on Cloudflare, Stripe, and Bitcoin SV, plus an operating
+          system with a built-in wallet. No mockups: every product below runs live.
         </p>
         <div className="hero-cta">
           <button type="button" className="btn btn-primary" onClick={() => navigate('/#products')}>

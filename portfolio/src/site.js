@@ -9,7 +9,7 @@ export const TITLE = 'Founder · EntangleIT'
 
 export const SITE_TITLE = 'EntangleIT — Software for an agent economy'
 export const SITE_DESCRIPTION =
-  'An agent-first software factory: prepaid agent wallets, pay-per-call APIs, discovery markets, gateways, and MCP tools — live on Cloudflare, Stripe, and Bitcoin SV.'
+  'An agent-first software factory: prepaid agent wallets, pay-per-call APIs, discovery markets, gateways, OS-level wallets, and MCP tools — live on Cloudflare, Stripe, and Bitcoin SV.'
 
 export const offers = [
   {
@@ -52,6 +52,14 @@ export const liveProducts = [
       'Point it at any upstream API, set sats prices, and get a hosted pay-per-call endpoint — with analytics, public dashboards, and auto-listing in x402market.',
     tech: ['Cloudflare Workers', 'x402', 'BSV', 'Stripe'],
     href: '/x402gateway',
+  },
+  {
+    name: 'bsvOS',
+    badge: 'Open source',
+    description:
+      'An operating system with a built-in wallet: OS-level custody, per-origin spending policy, and agent sub-wallets with budgets — apps and agents transact without ever touching keys.',
+    tech: ['Omarchy Linux', 'BRC-100', 'BSV', 'MCP'],
+    href: '/bsvos/',
   },
   {
     name: 'x402market',

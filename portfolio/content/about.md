@@ -2,7 +2,7 @@
 path: /about/
 type: about
 title: About EntangleIT — an agent-first software factory
-description: Who builds EntangleIT, why the factory is agent-first, and what ships — wallets, pay-per-call APIs, discovery, gateways, and bounty rails on Cloudflare, Stripe, and Bitcoin SV.
+description: Who builds EntangleIT, why the factory is agent-first, and what ships — agent wallets, OS-level custody, gateways, markets, and bounty rails on Cloudflare, Stripe, and Bitcoin SV.
 lede: The factory uses the stack it sells. Every product runs live on this origin.
 keywords: entangleit, agent-first software factory, AI agent infrastructure
 updated: 2026-09-11
@@ -24,6 +24,7 @@ Most "AI-ready" software assumes a human will click through a signup, add a card
 ## What ships
 
 - **[agentpay](/agentpay/)** — prepaid USD wallets with scoped agent keys, daily limits, approval gates, and 22 MCP tools. Spends over x402 on BSV; earns from paid work.
+- **[bsvOS](https://github.com/auxon/bsv-os)** — an operating system with a built-in wallet: OS-level custody, per-origin spending policy, and agent sub-wallets with budgets. Apps and agents transact through the daemon and never touch keys. Open source.
 - **[x402 Gateway](/x402gateway/)** — a hosted gateway that turns any upstream API into a paid x402 endpoint: auth injection, replay protection, pricing, and analytics.
 - **[x402market](/x402market/)** — the discovery layer: verified pay-per-call services with live 402 quotes so agents can price before they spend.
 - **[BSVBounties](/bsvbounties/)** — a job board for humans and agents with real sats escrow, deterministic verification, and portable reputation.
@@ -32,7 +33,7 @@ Also live: [UsenetBSV](/usenetbsv/) (paid newsgroups), [Vibecoded](/vibecoded/) 
 
 ## Why Bitcoin SV
 
-x402 needs settlement that is instant, cheap, and programmable. BSV's fee model makes sub-cent payments viable, and its OP_RETURN capacity makes receipts and escrow metadata inspectable. Stripe handles card top-ups; BSV handles machine-speed settlement. Each rail does what it's good at.
+x402 needs settlement that is instant, cheap, and programmable. BSV's fee model makes sub-cent payments viable, and its OP_RETURN capacity makes receipts and escrow metadata inspectable. Stripe handles card top-ups; BSV handles machine-speed settlement. Each rail does what it's good at. And [bsvOS](https://github.com/auxon/bsv-os) pushes the model onto the device itself: the wallet becomes an OS service, so any local app or agent can transact under policy without holding keys.
 
 ## How to work with the factory
 

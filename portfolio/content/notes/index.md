@@ -20,4 +20,4 @@ Engineering notes from the factory. Each post is a build log: the problem, the c
 
 ## What's coming
 
-Notes on reputation portability (spend attestations meeting bounty reputation), the economics of sub-cent API calls on BSV, and what agents actually pick when pricing is transparent.
+Notes on reputation portability (spend attestations meeting bounty reputation), the economics of sub-cent API calls on BSV, what agents actually pick when pricing is transparent, and operating-system wallets — what changes when the machine holds the keys (bsvOS policy gates, intent-tagged app spends, and running a game on OS custody).

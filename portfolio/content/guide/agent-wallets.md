@@ -2,7 +2,7 @@
 path: /guide/agent-wallets/
 type: guide
 title: What is an agent wallet? Prepaid balances for AI agents explained
-description: AI agents can't fill card forms. An agent wallet is a prepaid balance with scoped keys, spending limits, and approval gates — designed for software to spend safely.
+description: AI agents can't fill card forms. An agent wallet is a prepaid balance with scoped keys, spending limits, and approval gates — designed for software to spend safely. Covers hosted wallets (agentpay) and OS-level self-custody (bsvOS).
 lede: Give the agent a key, not your card. Limits fail closed, and every debit has a receipt.
 keywords: AI agent wallet, agent payments, prepaid wallet for agents, spend limits for agents
 updated: 2026-09-11
@@ -31,6 +31,13 @@ A normal wallet assumes a human at the controls: one balance, one signer, slow d
 2. **Machine rails for spending** — x402 challenges are settled in sats from an operator treasury; the agent's key never touches a private key or a card.
 3. **Policy engine in the middle** — every `spend` and `pay_service` call passes through the same checks: key active, daily limit, sub-agent budget, tool allowlist, approval threshold.
 4. **Fail closed** — expired keys, exhausted budgets, and unapproved high-value spends return errors instead of degrading gracefully into an overdraft.
+
+[bsvOS](https://github.com/auxon/bsv-os) is the same idea pushed onto the device — a self-custody agent wallet where the machine holds the keys and the human holds the policy:
+
+1. **OS-level custody** — one wallet in the system keyring with auto-lock. Apps and agents never see keys; every sat leaves through the daemon.
+2. **Per-origin policy** — allow, deny, ask, or auto-approve, with spend caps. The first spend from anything new is denied and teaches the human the exact approval command.
+3. **Agent sub-wallets** — mint an allowance with a lifetime budget, daily limit, and expiry. Minting is the approval ceremony; routine spends then pass without prompts, and revocation is one command.
+4. **Receipts on-chain** — every spend is a labeled transaction the human can audit, and a Jev advisor scores the uncertain ones for human review.
 
 ## A minimal flow
 

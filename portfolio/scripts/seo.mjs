@@ -30,12 +30,13 @@ export const APP_ROUTES = [
       "An agent-first software factory: prepaid agent wallets, pay-per-call APIs, discovery markets, gateways, and MCP tools — live on Cloudflare, Stripe, and Bitcoin SV.",
     og: "/og-card.png",
     summary:
-      "EntangleIT builds the rails agents run on: agentpay (prepaid USD wallets), x402market (paid API discovery), x402 Gateway (sell any API to agents), and BSVBounties (paid work with on-chain escrow).",
+      "EntangleIT builds the rails agents run on: agentpay (prepaid USD wallets), x402market (paid API discovery), x402 Gateway (sell any API to agents), BSVBounties (paid work with on-chain escrow), and bsvOS (an operating system with a built-in wallet).",
     links: [
       { href: "/agentpay/", label: "agentpay — prepaid USD wallets for AI agents" },
       { href: "/x402gateway/", label: "x402 Gateway — turn any API into a paid endpoint" },
       { href: "/x402market/", label: "x402market — paid APIs for agents" },
       { href: "/bsvbounties/", label: "BSVBounties — paid work with escrow" },
+      { href: "/bsvos/", label: "bsvOS — an operating system with a built-in wallet" },
       { href: "/infographics/agent-economy-stack.png", label: "How the projects connect" },
     ],
     sitemap: { priority: 1.0, changefreq: "weekly" },
