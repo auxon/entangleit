@@ -6,17 +6,24 @@
  * Pages-built content under those prefixes never reaches a browser. This step
  * copies the built docs into each worker's own bundle instead:
  *
- * - public/x402gateway/docs/index.html -> x402-gateway/src/docsPage.generated.ts
+ * - public/x402gateway/docs/index.html -> ~/x402-gateway/src/docsPage.generated.ts
  *   (served by a worker route; TS import keeps deploys self-contained)
- * - public/bsvbounties/docs/index.html -> ai-bounties/apps/web/public/docs/index.html
+ * - public/bsvbounties/docs/index.html -> ~/ai-bounties/apps/web/public/docs/index.html
  *   (Vite copies public/ into dist; the worker's asset binding serves it)
+ *
+ * Sibling repos are not present on every machine, so missing targets are
+ * skipped with a warning instead of failing the build.
  *
  * Runs last in portfolio build:pages, before the worker deploys.
  */
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
-import { join } from "node:path";
+import { homedir } from "node:os";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const PUBLIC = "/Users/rah/entangleit/portfolio/public";
+const here = dirname(fileURLToPath(import.meta.url));
+const PUBLIC = join(here, "..", "public");
+const HOME = homedir();
 
 function escapeTemplateLiteral(s) {
   return s.replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$\{/g, "\\${");
@@ -27,9 +34,11 @@ let synced = 0;
 // --- x402 Gateway docs page ---
 {
   const src = join(PUBLIC, "x402gateway", "docs", "index.html");
-  const dest = "/Users/rah/x402-gateway/src/docsPage.generated.ts";
+  const dest = join(HOME, "x402-gateway", "src", "docsPage.generated.ts");
   if (!existsSync(src)) {
     console.warn(`sync-worker-docs: missing ${src} (skipping gateway docs)`);
+  } else if (!existsSync(dirname(dest))) {
+    console.warn(`sync-worker-docs: no x402-gateway checkout at ${dirname(dest)} (skipping gateway docs)`);
   } else {
     const html = readFileSync(src, "utf8");
     writeFileSync(
@@ -46,13 +55,16 @@ let synced = 0;
 // --- BSVBounties docs page ---
 {
   const src = join(PUBLIC, "bsvbounties", "docs", "index.html");
-  const dir = "/Users/rah/ai-bounties/apps/web/public/docs";
+  const repo = join(HOME, "ai-bounties");
+  const dest = join(repo, "apps", "web", "public", "docs", "index.html");
   if (!existsSync(src)) {
     console.warn(`sync-worker-docs: missing ${src} (skipping bounties docs)`);
+  } else if (!existsSync(repo)) {
+    console.warn(`sync-worker-docs: no ai-bounties checkout at ${repo} (skipping bounties docs)`);
   } else {
-    mkdirSync(dir, { recursive: true });
-    writeFileSync(join(dir, "index.html"), readFileSync(src, "utf8"));
-    console.log(`sync-worker-docs: bounties docs -> ${dir}/index.html`);
+    mkdirSync(dirname(dest), { recursive: true });
+    writeFileSync(dest, readFileSync(src, "utf8"));
+    console.log(`sync-worker-docs: bounties docs -> ${dest}`);
     synced += 1;
   }
 }

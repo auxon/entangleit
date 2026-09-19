@@ -19,33 +19,48 @@ npm run dev
 ## Build
 
 ```bash
-npm run build
+npm run build        # standalone: vite + content pages + worker SEO
+npm run build:pages  # full pipeline: also rebuilds product mounts from sibling repos
 ```
 
-Output is in the `public/` directory.
+Output is in the `public/` directory. `npm run build` preserves any product
+app mounts already in `public/` (agentpay, ASLTutor, pocketpets, …) because
+their sibling repos are not present on every machine. Run `build:pages` on a
+machine that has all sibling repos to rebuild those mounts from source.
 
 ## Deploy to Cloudflare Pages
 
-### Option 1: Git integration (recommended)
+Wrangler CLI (the project is a direct-upload Pages project, not Git-integrated):
 
-1. Push this project to a GitHub or GitLab repository
-2. Go to [Cloudflare Dashboard](https://dash.cloudflare.com) → Workers & Pages → Create application → Pages → Connect to Git
-3. Select your repository
-4. Configure build settings:
-   - **Build command:** `npm run build`
-   - **Build output directory:** `public` (or leave blank — Cloudflare often defaults to `public`)
-   - **Root directory:** `portfolio` (if repo root is above this folder)
-5. Deploy
+```bash
+npm run deploy        # build + check + wrangler pages deploy
+npm run deploy:pages  # full sibling-repo build + check + deploy
+```
 
-### Option 2: Wrangler CLI
+`npm run check` is the pre-deploy guard. It refuses to upload a `public/`
+that is missing the JS bundle, `_worker.js`, `404.html`, or product mounts —
+the failure mode that served blank pages in Sep 2026 (Pages' SPA fallback
+served `index.html` for every path, including the JS asset). Bypass with
+`npm run check -- --allow-missing-mounts` only when intentionally deploying
+the core site without product apps.
+
+Manual equivalent:
 
 ```bash
 npm install -g wrangler
-npx wrangler pages project create richard-hein-portfolio
 npm run build
+npm run check
 npx wrangler pages deploy public --project-name=richard-hein-portfolio
 ```
 
-### Option 3: Direct upload
+## Monitoring
 
-Build the project and upload the `public` folder via the Cloudflare Pages dashboard.
+`npm run smoke` checks the live site end to end: homepage, the JS bundle's
+content type (the Sep 2026 outage served HTML for it), a real 404, robots /
+sitemap / manifest, and every product mount. It runs automatically after
+`npm run deploy` and `npm run deploy:pages`.
+
+`.github/workflows/site-smoke.yml` runs the same checks every 15 minutes on
+GitHub Actions. A failing scheduled run emails the user who last edited the
+workflow's cron schedule, so a silent outage gets caught without watching
+the site. Run it manually from the Actions tab ("Run workflow").

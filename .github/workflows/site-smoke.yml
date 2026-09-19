@@ -1,0 +1,18 @@
+name: Site smoke test
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Smoke test entangleit.com
+        run: node portfolio/scripts/smoke-test.mjs --url https://entangleit.com
