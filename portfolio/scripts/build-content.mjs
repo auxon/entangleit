@@ -307,6 +307,7 @@ ${bodyHtml}      </article>
         <a href="/">Home</a>
         <a href="/about/">About</a>
         <a href="/privacy.html">Privacy</a>
+        <a href="/tos.html">Terms</a>
         <a href="https://github.com/auxon" rel="me">GitHub</a>
         <a href="/sitemap.xml">Sitemap</a>
         <a href="/llms.txt">llms.txt</a>

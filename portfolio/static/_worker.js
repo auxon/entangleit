@@ -345,11 +345,11 @@ export default {
       return serveWithin(request, env, url, meta, false, "/index.html");
     }
 
-    // Privacy policy is linked as /privacy.html; Pages clean URLs would 308
-    // it to /privacy. Serve the asset directly so the exact URL returns 200.
-    if (pathname === "/privacy.html") {
-      const privacy = await env.ASSETS.fetch(new URL("/privacy", url));
-      if (privacy.status !== 404) return privacy;
+    // Legal pages are linked with .html; Pages clean URLs would 308 them to
+    // the extensionless path. Serve the assets directly so exact URLs return 200.
+    if (pathname === "/privacy.html" || pathname === "/tos.html") {
+      const legal = await env.ASSETS.fetch(new URL(pathname.slice(0, -".html".length), url));
+      if (legal.status !== 404) return legal;
     }
 
     // Static assets (sitemap.xml, llms.txt, og/…) and content pages first.

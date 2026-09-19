@@ -115,6 +115,7 @@ export default function Contact({ variant = 'home' }) {
               GitHub (Richard Hein)
             </a>
             <a href="/privacy.html">Privacy</a>
+            <a href="/tos.html">Terms</a>
           </div>
         </div>
       </div>
