@@ -4,7 +4,7 @@ import About from './components/About'
 import Experience from './components/Experience'
 import Skills from './components/Skills'
 import Products from './components/Products'
-import Card from './components/Card'
+import Offer from './components/Offer'
 import Archive from './components/Archive'
 import Contact from './components/Contact'
 import Nav from './components/Nav'
@@ -17,17 +17,32 @@ function setMeta(title, description) {
   if (tag) tag.setAttribute('content', description)
 }
 
-function Home({ navigate }) {
+function Home() {
   useEffect(() => {
     setMeta(SITE_TITLE, SITE_DESCRIPTION)
   }, [])
 
   return (
     <main>
-      <Hero navigate={navigate} />
-      <Products />
-      <Card navigate={navigate} />
+      <Offer />
       <Contact variant="home" />
+    </main>
+  )
+}
+
+function LabPage() {
+  useEffect(() => {
+    setMeta(
+      'Lab · EntangleIT — live agent-economy products',
+      'The EntangleIT lab: every product runs live on this origin — agent wallets, pay-per-call APIs, discovery markets, gateways, and MCP tools.'
+    )
+  }, [])
+
+  return (
+    <main>
+      <Hero />
+      <Products />
+      <Contact variant="lab" />
     </main>
   )
 }
@@ -52,12 +67,12 @@ function AboutPage() {
 }
 
 function App() {
-  const { isAbout, navigate } = useRoute()
+  const { isAbout, isLab, navigate } = useRoute()
 
   return (
     <>
       <Nav navigate={navigate} />
-      {isAbout ? <AboutPage /> : <Home navigate={navigate} />}
+      {isAbout ? <AboutPage /> : isLab ? <LabPage /> : <Home />}
     </>
   )
 }

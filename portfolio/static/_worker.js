@@ -365,8 +365,13 @@ export default {
     // Never SPA-fallback static files: PDFs/images unfurl as blank HTML.
     if (ASL_STATIC_EXT.test(pathname)) return notFound(env, url);
 
-    // Portfolio SPA owns /about/; anything else is a real 404.
-    if (pathname === "/about" || pathname === "/about/") {
+    // Portfolio SPA owns /about/ and /lab/; anything else is a real 404.
+    if (
+      pathname === "/about" ||
+      pathname === "/about/" ||
+      pathname === "/lab" ||
+      pathname === "/lab/"
+    ) {
       return serveWithin(request, env, url, meta, true, "/index.html");
     }
 

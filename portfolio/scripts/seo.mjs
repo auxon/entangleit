@@ -25,21 +25,35 @@ export const APP_ROUTES = [
   {
     path: "/",
     type: "home",
-    title: "EntangleIT — Software for an agent economy",
+    title: "EntangleIT — Production AI agents in 14 days",
     description:
-      "An agent-first software factory: prepaid agent wallets, pay-per-call APIs, discovery markets, gateways, and MCP tools — live on Cloudflare, Stripe, and Bitcoin SV.",
+      "EntangleIT designs, builds, and ships production AI agents in 2 weeks, fixed price. One useful agent on your data and workflows — from $12,500. AI Opportunity Audit, $1,500, credited toward a build.",
     og: "/og-card.png",
     summary:
-      "EntangleIT builds the rails agents run on: agentpay (prepaid USD wallets), x402market (paid API discovery), x402 Gateway (sell any API to agents), BSVBounties (paid work with on-chain escrow), and bsvOS (an operating system with a built-in wallet).",
+      "EntangleIT is an agent-first software factory. The wedge: one production AI agent, live in your business in 14 days, fixed price from $12,500. Proof: production agents for Roofstock and Cognilore.",
     links: [
+      { href: "/lab/", label: "Lab — live agent-economy products" },
       { href: "/agentpay/", label: "agentpay — prepaid USD wallets for AI agents" },
-      { href: "/x402gateway/", label: "x402 Gateway — turn any API into a paid endpoint" },
       { href: "/x402market/", label: "x402market — paid APIs for agents" },
-      { href: "/bsvbounties/", label: "BSVBounties — paid work with escrow" },
-      { href: "/bsvos/", label: "bsvOS — an operating system with a built-in wallet" },
-      { href: "/infographics/agent-economy-stack.png", label: "How the projects connect" },
+      { href: "/about/", label: "About — Richard Hein, EntangleIT" },
     ],
     sitemap: { priority: 1.0, changefreq: "weekly" },
+  },
+  {
+    path: "/lab/",
+    type: "about",
+    title: "Lab — EntangleIT, live agent-economy products",
+    description:
+      "The EntangleIT lab: every product runs live on this origin — agent wallets, pay-per-call APIs, discovery markets, gateways, and MCP tools on Cloudflare, Stripe, and Bitcoin SV.",
+    og: "/og-card.png",
+    summary:
+      "The EntangleIT lab — the product museum behind the factory: agentpay, x402market, x402 Gateway, BSVBounties, bsvOS, and more, all running live.",
+    links: [
+      { href: "/", label: "Home — production AI agents in 14 days" },
+      { href: "/agentpay/", label: "agentpay" },
+      { href: "/bsvbounties/", label: "BSVBounties" },
+    ],
+    sitemap: { priority: 0.6, changefreq: "monthly" },
   },
   {
     path: "/about/",

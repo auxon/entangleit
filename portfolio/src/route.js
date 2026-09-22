@@ -42,7 +42,7 @@ export function useRoute() {
     const dest = next + url.search + hash
     const current = normalizePath(window.location.pathname)
 
-    if (next !== '/' && next !== '/about') {
+    if (next !== '/' && next !== '/about' && next !== '/lab') {
       window.location.assign(url.pathname + url.search + url.hash)
       return
     }
@@ -59,5 +59,5 @@ export function useRoute() {
     if (!hash) window.scrollTo(0, 0)
   }
 
-  return { path, navigate, isAbout: path === '/about' }
+  return { path, navigate, isAbout: path === '/about', isLab: path === '/lab' }
 }

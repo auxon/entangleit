@@ -7,31 +7,24 @@ export const YEARS = 28
 
 export const TITLE = 'Founder · EntangleIT'
 
-export const SITE_TITLE = 'EntangleIT — Software for an agent economy'
+export const SITE_TITLE = 'EntangleIT — Production AI agents in 14 days'
 export const SITE_DESCRIPTION =
-  'An agent-first software factory: prepaid agent wallets, pay-per-call APIs, discovery markets, gateways, OS-level wallets, and MCP tools — live on Cloudflare, Stripe, and Bitcoin SV.'
+  'EntangleIT designs, builds, and ships production AI agents in 2 weeks, fixed price. One useful agent on your data and workflows — from $12,500. AI Opportunity Audit, $1,500, credited toward a build.'
 
 export const offers = [
   {
-    id: 'agent-api',
-    price: '$750',
-    name: 'Agent-ready API in 48 hours',
+    id: 'agent-build',
+    price: 'from $12,500',
+    name: 'Production agent build',
     summary:
-      'We wrap your API as a paid x402 endpoint on our Gateway — sats pricing, wallet-compatible, listed in x402market, plus an MCP tool so agents can call it.',
+      'A focused engagement from discovery through production — one useful AI agent on your data and workflows, live in 14 days. Fixed price, you own everything.',
   },
   {
-    id: 'factory-week',
-    price: '$2,500',
-    name: 'Software factory week',
+    id: 'audit',
+    price: '$1,500',
+    name: 'AI Opportunity Audit',
     summary:
-      'One week, one owner: an agent-first product from idea to live — Workers, Stripe, BSV x402, MCP, dashboards, and the deploys.',
-  },
-  {
-    id: 'diy',
-    price: '$149',
-    name: 'DIY Go-Live Kit',
-    summary: 'Worker · Checkout · Webhook · go live. You run it.',
-    href: DIY_KIT,
+      'A 90-minute working session finding the 3 places an AI agent pays for itself in your business, with a written report. Credited in full toward a build.',
   },
 ]
 

@@ -2,17 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { EMAIL, LINKEDIN, MAILTO, RESUME } from '../site'
 
 const offerOptions = [
-  { value: 'agent-api', label: '$750 agent-ready API (48h)' },
-  { value: 'factory-week', label: '$2,500 software factory week' },
+  { value: 'agent-build', label: 'Production agent build (from $12,500)' },
+  { value: 'audit', label: 'AI Opportunity Audit ($1,500)' },
   { value: 'other', label: 'Something else' },
 ]
 
 function offerFromLocation() {
-  if (typeof window === 'undefined') return 'agent-api'
+  if (typeof window === 'undefined') return 'agent-build'
   const fromQuery = new URLSearchParams(window.location.search).get('offer')
   const fromHash = new URLSearchParams(window.location.hash.split('?')[1] || '').get('offer')
   const value = fromQuery || fromHash
-  return offerOptions.some((o) => o.value === value) ? value : 'agent-api'
+  return offerOptions.some((o) => o.value === value) ? value : 'agent-build'
 }
 
 export default function Contact({ variant = 'home' }) {
@@ -21,16 +21,11 @@ export default function Contact({ variant = 'home' }) {
 
   useEffect(() => {
     const sync = () => setOffer(offerFromLocation())
-    const onOffer = (event) => {
-      if (event.detail) setOffer(event.detail)
-    }
     window.addEventListener('hashchange', sync)
     window.addEventListener('popstate', sync)
-    window.addEventListener('factory-offer', onOffer)
     return () => {
       window.removeEventListener('hashchange', sync)
       window.removeEventListener('popstate', sync)
-      window.removeEventListener('factory-offer', onOffer)
     }
   }, [])
 
@@ -59,8 +54,10 @@ export default function Contact({ variant = 'home' }) {
         <div className="contact-content">
           <p>
             {variant === 'about'
-              ? 'Email is the catch. Put an API on the agent rails, book a factory week, or ask about anything else.'
-              : 'Book a 48-hour agent-ready API or a $2,500 factory week. Email is the catch — the form opens your mail client.'}
+              ? 'Email is the catch. Book a production agent build, start with an audit, or ask about anything else.'
+              : variant === 'lab'
+                ? 'Like what the factory ships? The lab runs live — and the same team builds production agents for businesses. Email is the catch.'
+                : 'Book a 20-minute fit call or start with an AI Opportunity Audit. Email is the catch — the form opens your mail client.'}
           </p>
           <p className="contact-email">
             <a href={MAILTO}>{EMAIL}</a>
@@ -87,7 +84,7 @@ export default function Contact({ variant = 'home' }) {
             </label>
             <label>
               Message
-              <textarea name="message" rows="4" required placeholder="What needs to go live?" />
+              <textarea name="message" rows="4" required placeholder="Which workflow hurts the most?" />
             </label>
             <button type="submit" className="btn btn-primary">
               Email Richard

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 
 const navItems = [
-  { href: '/#products', label: 'Products' },
-  { href: '/#factory', label: 'Factory' },
+  { href: '/', label: 'Offer' },
+  { href: '/lab', label: 'Lab' },
   { href: '/agentpay/', label: 'agentpay' },
   { href: '/x402market/', label: 'x402market' },
   { href: '/x402gateway', label: 'x402gateway' },
