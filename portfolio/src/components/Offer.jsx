@@ -1,5 +1,4 @@
 import React from 'react'
-import DemoAgent from './DemoAgent'
 import { MAILTO } from '../site'
 
 const FIT_TYPES = ['Support triage', 'Document Q&A', 'Lead qualification', 'Internal operations']
@@ -112,8 +111,6 @@ export default function Offer() {
           </div>
         </div>
       </section>
-
-      <DemoAgent />
 
       <section className="offer-commercial" aria-label="Engagement options">
         <div className="offer-commercial-grid">
