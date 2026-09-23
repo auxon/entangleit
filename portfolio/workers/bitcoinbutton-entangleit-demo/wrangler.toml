@@ -1,0 +1,14 @@
+name = "bitcoinbutton-entangleit-demo"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+workers_dev = false
+
+# More-specific paths win over the catch-alls:
+#   entangleit.com/bitcoinbutton*            -> bitcoinbutton
+#   bitcoinbutton.entangleit.com/*           -> bitcoinbutton
+routes = [
+  { pattern = "bitcoinbutton.entangleit.com/entangleit-demo", zone_name = "entangleit.com" },
+  { pattern = "bitcoinbutton.entangleit.com/entangleit-demo/*", zone_name = "entangleit.com" },
+  { pattern = "entangleit.com/bitcoinbutton/entangleit-demo", zone_name = "entangleit.com" },
+  { pattern = "entangleit.com/bitcoinbutton/entangleit-demo/*", zone_name = "entangleit.com" },
+]
