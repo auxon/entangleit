@@ -22,6 +22,13 @@
  * NOTE: /auth/* and /api/* are served by separate Workers via Cloudflare
  * Worker Routes (vibecoded-api, x402market-api); this worker must not
  * intercept them. Uses env.ASSETS (Pages asset binding).
+ *
+ * /demo-audit (POST) is served by THIS worker: the homepage demo audit agent.
+ * Inference, in order: OPENCODE_API_KEY secret (OpenCode.ai, OpenAI-compatible
+ * chat completions; OPENCODE_BASE_URL and DEMO_MODEL override the defaults),
+ * then the Workers AI binding `AI` (free tier, no key), then OpenRouter via
+ * the OPENROUTER_API_KEY secret. None configured -> 503 engine_offline and
+ * the frontend shows its graceful offline panel.
  */
 const SEO = /*__SEO_MAP__*/{
   site: "https://entangleit.com",
@@ -224,6 +231,325 @@ function canonicalAslPath(pathname) {
   return rest === "/" ? "/ASLTutor/" : `/ASLTutor${rest}`;
 }
 
+/* ------------------------------------------------------------------ */
+/* Demo audit agent: POST /demo-audit                                    */
+/* ------------------------------------------------------------------ */
+
+const DEMO_MAX_INPUT = 2000;
+const DEMO_MAX_OUTPUT_TOKENS = 700;
+const DEMO_MAX_USER_TURNS = 2; // one description + one round of answers
+const DEMO_REQ_PER_DAY = 10; // per IP; a full audit costs 2 requests
+const DEMO_DAY_MS = 24 * 60 * 60 * 1000;
+const DEMO_JSON = { 'content-type': 'application/json', 'cache-control': 'no-store' };
+
+const demoRate = new Map(); // ip -> { count, reset }
+
+function demoRateOk(ip) {
+  const now = Date.now();
+  const rec = demoRate.get(ip);
+  if (!rec || now > rec.reset) {
+    demoRate.set(ip, { count: 1, reset: now + DEMO_DAY_MS });
+    return true;
+  }
+  if (rec.count >= DEMO_REQ_PER_DAY) return false;
+  rec.count += 1;
+  return true;
+}
+
+function demoPrune() {
+  if (demoRate.size < 1000) return;
+  const now = Date.now();
+  for (const [k, v] of demoRate) if (now > v.reset) demoRate.delete(k);
+}
+
+function demoBad() {
+  return new Response(JSON.stringify({ error: 'bad_request' }), { status: 400, headers: DEMO_JSON });
+}
+
+const DEMO_QUESTIONS_SYSTEM = [
+  'You are the EntangleIT demo audit agent, live on entangleit.com.',
+  'A visitor just described their business. Your ONLY job in this reply: ask up to 3 sharp clarifying questions that pin down (a) where the repetitive knowledge work actually is, (b) its volume and frequency, and (c) the tools and data involved.',
+  'Make every question specific to what they wrote. Never ask anything generic they already answered. Do NOT deliver any audit, recommendation, score, or verdict yet.',
+  'Reply as JSON ONLY, no prose, no code fences:',
+  '{"type":"questions","intro":"one short sentence acknowledging their business","questions":["...","...","..."]}',
+].join('\n');
+
+const DEMO_AUDIT_SYSTEM = [
+  'You are the EntangleIT demo audit agent, live on entangleit.com.',
+  'You asked clarifying questions and the visitor answered. Now deliver the mini-audit.',
+  'Pick ONE workflow: the single highest-ROI automation candidate from what they described. Be concrete and honest. If nothing they described is a good fit for an AI agent, say so plainly with fit "poor" and name what would be a better use of their money.',
+  'Sketch the ROI with simple arithmetic from their own numbers (hours per week x blended hourly cost x 50 weeks). Keep every field tight: one or two sentences each.',
+  'Reply as JSON ONLY, no prose, no code fences, exactly these fields:',
+  '{"type":"audit","workflow":"...","why":"...","timeSaved":"...","roiSketch":"...","fit":"strong|borderline|poor","fitReason":"...","suggestedBuild":"..."}',
+].join('\n');
+
+function demoMock(phase) {
+  if (phase === 'questions') {
+    return {
+      type: 'questions',
+      intro: 'Got it — thanks for the detail.',
+      questions: [
+        'Which step of that workflow eats the most staff hours per week, and roughly how many?',
+        'Where does the source data live today (email, PDFs, a CRM, spreadsheets)?',
+        'What does "done right" look like — is there a human review step you would want to keep?',
+      ],
+    };
+  }
+  return {
+    type: 'audit',
+    workflow: 'Example: auto-extracting policy details from PDFs into the CRM.',
+    why: 'High volume, structured output, and a clear human review checkpoint make this the safest first automation.',
+    timeSaved: '6–10 staff hours per week.',
+    roiSketch: '8 hrs/wk × $45/hr × 50 wks ≈ $18,000/yr in reclaimed time.',
+    fit: 'strong',
+    fitReason: 'Repetitive, rules-based, and measurable — exactly what a production agent is for.',
+    suggestedBuild: 'A document-intake agent: watches the inbox, extracts fields, drafts CRM entries for one-click approval.',
+  };
+}
+
+function demoExtractJson(text) {
+  const clean = String(text || '')
+    .replace(/^\s*```(?:json)?/i, '')
+    .replace(/```\s*$/, '')
+    .trim();
+  const start = clean.indexOf('{');
+  const end = clean.lastIndexOf('}');
+  if (start < 0 || end <= start) return null;
+  try {
+    return JSON.parse(clean.slice(start, end + 1));
+  } catch {
+    return null;
+  }
+}
+
+async function demoWorkersAI(env, system, messages) {
+  // Model is overridable via DEMO_WORKERS_MODEL so a future deprecation only
+  // needs a wrangler var change, not a code patch.
+  const model = env.DEMO_WORKERS_MODEL || '@cf/meta/llama-4-scout-17b-16e-instruct';
+  const out = await env.AI.run(model, {
+    messages: [{ role: 'system', content: system }, ...messages],
+    max_tokens: DEMO_MAX_OUTPUT_TOKENS,
+  });
+  const text = demoExtractText(out);
+  if (!text) {
+    // No text could be extracted: surface the shape (truncated) in the error
+    // detail so the next report shows what the model actually returned.
+    const shape = JSON.stringify(out, (k, v) =>
+      typeof v === 'string' && v.length > 120 ? v.slice(0, 120) + '…' : v,
+    ).slice(0, 300);
+    throw new Error(`unexpected response shape: ${shape}`);
+  }
+  return text;
+}
+
+async function demoOpenCode(env, system, messages) {
+  const base = String(env.OPENCODE_BASE_URL || 'https://opencode.ai/zen/v1').replace(/\/+$/, '');
+  const res = await fetch(`${base}/chat/completions`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      authorization: `Bearer ${env.OPENCODE_API_KEY}`,
+    },
+    body: JSON.stringify({
+      model: env.DEMO_MODEL || 'muse-spark-1.3-contributor-free',
+      max_tokens: DEMO_MAX_OUTPUT_TOKENS,
+      messages: [{ role: 'system', content: system }, ...messages],
+    }),
+  });
+  if (!res.ok) {
+    const body = await res.text().catch(() => '');
+    throw new Error(`${res.status} ${body.slice(0, 200)}`);
+  }
+  const data = await res.json();
+  const content =
+    data && data.choices && data.choices[0] && data.choices[0].message
+      ? data.choices[0].message.content
+      : '';
+  return typeof content === 'string' ? content : demoCoerceString(content);
+}
+
+async function demoOpenRouter(env, system, messages) {
+  const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      authorization: `Bearer ${env.OPENROUTER_API_KEY}`,
+      'HTTP-Referer': 'https://entangleit.com/',
+      'X-Title': 'EntangleIT demo audit agent',
+    },
+    body: JSON.stringify({
+      model: env.DEMO_MODEL || 'openai/gpt-4o-mini',
+      max_tokens: DEMO_MAX_OUTPUT_TOKENS,
+      messages: [{ role: 'system', content: system }, ...messages],
+    }),
+  });
+  if (!res.ok) throw new Error(`openrouter ${res.status}`);
+  const data = await res.json();
+  const content =
+    data && data.choices && data.choices[0] && data.choices[0].message
+      ? data.choices[0].message.content
+      : '';
+  return typeof content === 'string' ? content : demoCoerceString(content);
+}
+
+// Workers AI usually returns { response: "<text>" }, but some models return a
+// structured object (e.g. the full message) instead of a plain string.
+function demoExtractText(out) {
+  if (!out) return '';
+  if (typeof out === 'string') return out;
+  if (typeof out.response === 'string') return out.response;
+  if (out.response && typeof out.response === 'object') {
+    const s = demoCoerceString(out.response);
+    if (s) return s;
+  }
+  return '';
+}
+
+function demoCoerceString(v) {
+  if (typeof v === 'string') return v.trim();
+  if (v == null) return '';
+  if (Array.isArray(v)) return v.map(demoCoerceString).filter(Boolean).join(' ');
+  if (typeof v === 'object') {
+    // Models sometimes nest a field (e.g. "workflow": {"title": "..."}).
+    // Prefer common wrapper keys, else join every string leaf.
+    for (const k of ['text', 'content', 'value', 'description', 'summary', 'name', 'title']) {
+      if (typeof v[k] === 'string' && v[k].trim()) return v[k].trim();
+    }
+    const leaves = [];
+    for (const k of Object.keys(v)) {
+      const s = demoCoerceString(v[k]);
+      if (s) leaves.push(s);
+    }
+    return leaves.join(' ');
+  }
+  return String(v).trim();
+}
+
+function demoNormalizeQuestions(p) {
+  const qs = Array.isArray(p.questions)
+    ? p.questions.map(demoCoerceString).filter(Boolean).slice(0, 3)
+    : [];
+  if (qs.length === 0) return null;
+  return { type: 'questions', intro: demoCoerceString(p.intro), questions: qs };
+}
+
+function demoNormalizeAudit(p) {
+  const audit = {
+    type: 'audit',
+    workflow: demoCoerceString(p.workflow),
+    why: demoCoerceString(p.why),
+    timeSaved: demoCoerceString(p.timeSaved),
+    roiSketch: demoCoerceString(p.roiSketch),
+    fit: ['strong', 'borderline', 'poor'].includes(p.fit) ? p.fit : 'borderline',
+    fitReason: demoCoerceString(p.fitReason),
+    suggestedBuild: demoCoerceString(p.suggestedBuild),
+  };
+  return audit.workflow ? audit : null;
+}
+
+async function handleDemoAudit(request, env) {
+  if (request.method !== 'POST') {
+    return new Response('Method not allowed', { status: 405 });
+  }
+  if (!(request.headers.get('content-type') || '').includes('application/json')) return demoBad();
+
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return demoBad();
+  }
+  const messages = body && Array.isArray(body.messages) ? body.messages : null;
+  if (!messages || messages.length === 0 || messages.length > 5) return demoBad();
+
+  const llmMessages = [];
+  let userTurns = 0;
+  for (const m of messages) {
+    if (
+      !m ||
+      (m.role !== 'user' && m.role !== 'assistant') ||
+      typeof m.content !== 'string' ||
+      !m.content.trim() ||
+      m.content.length > DEMO_MAX_INPUT
+    ) {
+      return demoBad();
+    }
+    if (m.role === 'user') userTurns += 1;
+    llmMessages.push({ role: m.role, content: m.content.slice(0, DEMO_MAX_INPUT) });
+  }
+  if (userTurns === 0 || userTurns > DEMO_MAX_USER_TURNS) return demoBad();
+
+  demoPrune();
+  const ip = request.headers.get('cf-connecting-ip') || 'unknown';
+  if (!demoRateOk(ip)) {
+    return new Response(JSON.stringify({ error: 'rate_limited' }), {
+      status: 429,
+      headers: DEMO_JSON,
+    });
+  }
+
+  const phase = userTurns === 1 ? 'questions' : 'audit';
+
+  // DEMO_MOCK=1 lets the UI be tested end-to-end before any inference is wired up.
+  if (env.DEMO_MOCK === '1') {
+    return new Response(JSON.stringify(demoMock(phase)), { headers: DEMO_JSON });
+  }
+
+  const system = phase === 'questions' ? DEMO_QUESTIONS_SYSTEM : DEMO_AUDIT_SYSTEM;
+  // Try each configured provider in order. A provider that fails (bad key,
+  // tier restriction, outage) falls through to the next; only when every
+  // provider fails do we report engine_error.
+  const providers = [];
+  if (env.OPENCODE_API_KEY) providers.push(['opencode', () => demoOpenCode(env, system, llmMessages)]);
+  if (env.AI) providers.push(['workers-ai', () => demoWorkersAI(env, system, llmMessages)]);
+  if (env.OPENROUTER_API_KEY) providers.push(['openrouter', () => demoOpenRouter(env, system, llmMessages)]);
+  if (providers.length === 0) {
+    return new Response(JSON.stringify({ error: 'engine_offline' }), {
+      status: 503,
+      headers: DEMO_JSON,
+    });
+  }
+  let raw = '';
+  const failures = [];
+  for (const [name, run] of providers) {
+    try {
+      raw = await run();
+      if (raw) break;
+      failures.push(`${name}: empty response`);
+    } catch (e) {
+      // NOTE: Cloudflare's edge intercepts 502/504 responses and replaces the
+      // body with its own "error code: 502" text, so engine failures are
+      // reported as 503 (which passes through untouched) with details inline.
+      failures.push(`${name}: ${String((e && e.message) || e).slice(0, 200)}`);
+    }
+  }
+  if (!raw) {
+    const detail = failures.join(' | ').slice(0, 300);
+    return new Response(JSON.stringify({ error: 'engine_error', detail }), {
+      status: 503,
+      headers: DEMO_JSON,
+    });
+  }
+
+  const parsed = demoExtractJson(raw);
+  // Normalize the model's JSON so every rendered field is a plain string —
+  // models sometimes nest objects where the UI expects text, which React
+  // would render as "[object Object]".
+  if (parsed && parsed.type === 'audit') {
+    // Model delivered the audit (possibly a phase early); take the win.
+    const audit = demoNormalizeAudit(parsed);
+    if (audit) return new Response(JSON.stringify(audit), { headers: DEMO_JSON });
+  } else if (parsed && parsed.type === 'questions' && phase === 'questions') {
+    const q = demoNormalizeQuestions(parsed);
+    if (q) return new Response(JSON.stringify(q), { headers: DEMO_JSON });
+  }
+  return new Response(JSON.stringify({ type: 'text', text: String(raw).slice(0, 4000) }), {
+    headers: DEMO_JSON,
+  });
+}
+
+/* ------------------------------------------------------------------ */
+
 const PORTFOLIO = new Set(["/", "/about", "/about/"]);
 
 export default {
@@ -231,6 +557,11 @@ export default {
     const url = new URL(request.url);
     const { pathname } = url;
     const meta = metaFor(pathname);
+
+    // Homepage demo audit agent (handled by this worker; not /api/*).
+    if (pathname === "/demo-audit") {
+      return handleDemoAudit(request, env);
+    }
 
     // API/auth belong to their own Workers (Worker Routes).
     if (pathname === "/auth" || pathname.startsWith("/auth/") || pathname.startsWith("/api/")) {
