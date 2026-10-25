@@ -11,6 +11,125 @@ export const SITE_TITLE = 'EntangleIT — Production AI agents in 14 days'
 export const SITE_DESCRIPTION =
   'EntangleIT designs, builds, and ships production AI agents in 2 weeks, fixed price. One useful agent on your data and workflows — from $12,500. AI Opportunity Audit, $1,500, credited toward a build.'
 
+export const MIGRATION_PATH = '/cloudflare-migration'
+export const MIGRATION_TITLE = 'Cloudflare migration — EntangleIT'
+export const MIGRATION_DESCRIPTION =
+  'Done-for-you Cloudflare migrations for small and mid-size companies. Move apps, APIs, and sites off AWS, Vercel, Heroku, or traditional hosting onto Workers, Pages, D1, R2, KV, Durable Objects, Queues, and Workers AI. Assessment starting at $499.'
+export const MIGRATION_MAILTO = `${MAILTO}?subject=${encodeURIComponent(
+  'EntangleIT — Book a free Cloudflare migration assessment',
+)}`
+
+/** Starting-at prices — edit here; pages and the contact form read this list. */
+export const migrationPackages = [
+  {
+    id: 'cf-assessment',
+    name: 'Migration Assessment',
+    price: 'Starting at $499',
+    priceNote: 'Fixed fee',
+    summary:
+      'Audit the current stack, compare hosting cost, and leave with a written migration plan.',
+    includes: [
+      'Current stack, traffic, and dependency review',
+      'Cloudflare target architecture sketch',
+      'Cost comparison vs AWS, Vercel, Heroku, or the current host',
+      'Phased plan with risks and rollback notes',
+    ],
+  },
+  {
+    id: 'cf-standard',
+    name: 'Standard Migration',
+    price: 'Starting at $2,000',
+    priceNote: 'One app, API, or site',
+    summary: 'One app, API, or site moved, tested, and cut over — with a rollback plan.',
+    includes: [
+      'One application, API, or site',
+      'Deployed to Workers, Pages, or the fitting Cloudflare product',
+      'Functional testing before cutover',
+      'DNS or traffic cutover with a documented rollback plan',
+    ],
+  },
+  {
+    id: 'cf-full',
+    name: 'Full Migration',
+    price: 'Starting at $6,000+',
+    priceNote: 'Multi-service',
+    summary: 'Multi-service move: databases, object storage, CI/CD, and monitoring on Cloudflare.',
+    includes: [
+      'Multiple apps or services',
+      'Data stores (D1, KV, R2, Durable Objects) where they fit',
+      'CI/CD and monitoring wired up',
+      'Staged cutover with rollback',
+    ],
+  },
+  {
+    id: 'cf-care',
+    name: 'Monthly care plan',
+    price: 'Optional retainer',
+    priceNote: 'After cutover',
+    summary:
+      'Monitoring, dependency updates, and a named contact. Scoped to the workload after handoff.',
+    includes: [
+      'Runtime and uptime checks',
+      'Dependency and platform updates',
+      'A named contact for incidents',
+    ],
+    optional: true,
+  },
+]
+
+export const migrationProcess = [
+  { when: '01', what: 'Free 20-minute call', detail: 'Fit, scope, and whether a move is worth it.' },
+  { when: '02', what: 'Assessment', detail: 'Stack audit, cost comparison, written plan.' },
+  { when: '03', what: 'Migration', detail: 'Build and test the Cloudflare target in parallel.' },
+  { when: '04', what: 'Cutover with rollback', detail: 'DNS or traffic switch, with a way back.' },
+  { when: '05', what: 'Handoff and docs', detail: 'Runbook, accounts you own, optional care plan.' },
+]
+
+export const migrationPlatform = [
+  'Workers',
+  'Pages',
+  'D1',
+  'R2',
+  'KV',
+  'Durable Objects',
+  'Queues',
+  'Workers AI',
+]
+
+/** Live Cloudflare-hosted products already on this origin — no invented clients. */
+export const migrationProof = [
+  {
+    name: 'agentpay',
+    href: '/agentpay/',
+    note: 'Prepaid agent wallets on Cloudflare Workers',
+  },
+  {
+    name: 'x402 Gateway',
+    href: '/x402gateway',
+    note: 'Hosted pay-per-call API gateway on Workers',
+  },
+  {
+    name: 'x402market',
+    href: '/x402market/',
+    note: 'Paid API registry on Workers',
+  },
+  {
+    name: 'BSVBounties',
+    href: '/bsvbounties/',
+    note: 'Escrow job board on Workers',
+  },
+  {
+    name: 'Brainstorm',
+    href: '/brainstorm/',
+    note: 'Shared idea boards on Workers and Durable Objects',
+  },
+  {
+    name: 'Leak',
+    href: '/leak/',
+    note: 'Webhook diagnosis on Workers and Durable Objects',
+  },
+]
+
 export const offers = [
   {
     id: 'agent-build',

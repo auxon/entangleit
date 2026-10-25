@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 const navItems = [
   { href: '/', label: 'Offer' },
+  { href: '/cloudflare-migration', label: 'Migration' },
   { href: '/lab', label: 'Lab' },
   { href: '/agentpay/', label: 'agentpay' },
   { href: '/x402market/', label: 'x402market' },
