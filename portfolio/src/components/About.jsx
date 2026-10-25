@@ -19,7 +19,8 @@ export default function About() {
           <p>
             Technical lead for LLM RAG systems when the job needs it, from UI through
             middleware to backend. The work now is agent-first: wallets, paid APIs,
-            discovery, and the software factory that ships them.
+            discovery, the software factory that ships them, and{' '}
+            <a href="/cloudflare-migration">done-for-you Cloudflare migrations</a>.
           </p>
         </div>
       </div>

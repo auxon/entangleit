@@ -4,7 +4,8 @@ Vite React SPA for [entangleit.com](https://entangleit.com). Homepage is product
 
 ## Routes
 
-- `/` — pain, CARD, $149 DIY, Leak, live proof grid
+- `/` — production AI agent offer, plus a featured Cloudflare migration section
+- `/cloudflare-migration` — done-for-you Cloudflare migration packages, process, and CTA
 - `/about` — founder copy, experience, skills, archive
 - `/resume.pdf` — static PDF (do not remove)
 - `/og-card.png` — 1200×630 Open Graph / LinkedIn preview (product branding, no personal name)

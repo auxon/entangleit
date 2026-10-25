@@ -1,6 +1,7 @@
 import React from 'react'
 import DemoAgent from './DemoAgent'
-import { MAILTO } from '../site'
+import MigrationFeature from './MigrationFeature'
+import { MAILTO, MIGRATION_PATH } from '../site'
 
 const FIT_TYPES = ['Support triage', 'Document Q&A', 'Lead qualification', 'Internal operations']
 
@@ -38,6 +39,9 @@ export default function Offer() {
               <a className="offer-text-link" href="#audit">
                 Start with an audit
               </a>
+              <a className="offer-text-link" href={MIGRATION_PATH}>
+                Cloudflare migration
+              </a>
             </div>
           </div>
           <aside className="offer-panel" aria-label="Fourteen-day delivery plan">
@@ -61,6 +65,8 @@ export default function Offer() {
           </aside>
         </div>
       </section>
+
+      <MigrationFeature />
 
       <section className="section">
         <div className="section-inner">
