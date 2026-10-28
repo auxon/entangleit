@@ -29,11 +29,8 @@ const MOUNTS = [
   "x402market",
   "ASLTutor",
   "pocketpets",
-  "gachago",
   "bitcoinzip",
-  "bittok",
   "vibecoded",
-  "wot",
 ];
 
 async function get(path) {
