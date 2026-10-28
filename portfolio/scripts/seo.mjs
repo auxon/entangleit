@@ -32,12 +32,30 @@ export const APP_ROUTES = [
     summary:
       "EntangleIT is an agent-first software factory. The wedge: one production AI agent, live in your business in 14 days, fixed price from $12,500. Proof: production agents for Roofstock and Cognilore.",
     links: [
+      { href: "/cloudflare-migration/", label: "Cloudflare migration — done-for-you moves off AWS, Vercel, Heroku" },
       { href: "/lab/", label: "Lab — live agent-economy products" },
       { href: "/agentpay/", label: "agentpay — prepaid USD wallets for AI agents" },
       { href: "/x402market/", label: "x402market — paid APIs for agents" },
       { href: "/about/", label: "About — Richard Hein, EntangleIT" },
     ],
     sitemap: { priority: 1.0, changefreq: "weekly" },
+  },
+  {
+    path: "/cloudflare-migration/",
+    type: "factory",
+    title: "Cloudflare migration — EntangleIT",
+    description:
+      "Done-for-you Cloudflare migrations for small and mid-size companies. Move apps, APIs, and sites off AWS, Vercel, Heroku, or traditional hosting onto Workers, Pages, D1, R2, KV, Durable Objects, Queues, and Workers AI. Assessment starting at $499.",
+    og: "/og-card.png",
+    summary:
+      "EntangleIT migrates apps, APIs, and sites onto Cloudflare. Starting-at packages: Migration Assessment $499, Standard Migration $2,000, Full Migration $6,000+, plus an optional monthly care plan. Proof is the live stack on this origin — agentpay, x402 Gateway, x402market, BSVBounties, Brainstorm, and Leak.",
+    links: [
+      { href: "/", label: "Home — production AI agents in 14 days" },
+      { href: "/#cloudflare-migration", label: "Homepage feature — packages at a glance" },
+      { href: "/agentpay/", label: "agentpay — live on Cloudflare Workers" },
+      { href: "/lab/", label: "Lab — other live Cloudflare products" },
+    ],
+    sitemap: { priority: 0.9, changefreq: "weekly" },
   },
   {
     path: "/lab/",

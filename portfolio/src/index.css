@@ -95,8 +95,14 @@ textarea {
 
 .nav-links {
   display: flex;
-  gap: 2rem;
+  gap: 1.25rem;
   list-style: none;
+}
+
+@media (min-width: 1100px) {
+  .nav-links {
+    gap: 2rem;
+  }
 }
 
 .nav-links button {
@@ -1031,6 +1037,141 @@ textarea {
   margin-top: 2rem;
 }
 
+/* Cloudflare migration feature (homepage) + services page */
+.migration-feature {
+  padding: 4.5rem 0;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+}
+
+.migration-feature-inner {
+  width: min(1180px, calc(100% - 3rem));
+  margin-inline: auto;
+}
+
+.migration-feature .section-lead {
+  max-width: 46rem;
+}
+
+.migration-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 2.4rem;
+}
+
+.migration-feature-card {
+  background: var(--bg-primary);
+  padding: 1.6rem;
+}
+
+.migration-feature-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  margin: 0 0 0.5rem;
+}
+
+.migration-feature-card p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.migration-feature-price {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 0 0 0.75rem;
+}
+
+.migration-platform {
+  margin-bottom: 1.5rem;
+}
+
+.package-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+
+.package-card {
+  background: var(--bg-secondary);
+  padding: 2rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.package-card.optional {
+  grid-column: 1 / -1;
+  background: var(--bg-tertiary);
+}
+
+.package-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  margin: 0 0 0.5rem;
+}
+
+.package-card .migration-feature-price {
+  font-size: 1.6rem;
+}
+
+.package-card .offer-copy {
+  margin: 0.6rem 0 1.2rem;
+}
+
+.package-includes {
+  margin: 0 0 1.6rem;
+  padding-left: 1.15rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  flex: 1;
+}
+
+.package-includes li {
+  margin-bottom: 0.45rem;
+}
+
+.package-card .btn {
+  align-self: flex-start;
+}
+
+.process-detail {
+  display: block;
+  margin-top: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--text-muted);
+}
+
+.migration-proof-lead {
+  margin: 1.5rem 0 0;
+  max-width: 42rem;
+  color: var(--text-secondary);
+}
+
+.migration-proof-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+a.offer-proof-card {
+  color: inherit;
+}
+
+a.offer-proof-card:hover {
+  color: inherit;
+}
+
+a.offer-proof-card:hover strong {
+  color: var(--accent);
+}
+
 @media (max-width: 820px) {
   .offer-hero {
     padding: 5rem 0 3.5rem;
@@ -1050,7 +1191,10 @@ textarea {
     border-top: 1px solid var(--border);
   }
   .offer-fit-grid,
-  .offer-proof-grid {
+  .offer-proof-grid,
+  .migration-feature-grid,
+  .package-grid,
+  .migration-proof-grid {
     grid-template-columns: 1fr;
   }
 }

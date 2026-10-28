@@ -37,7 +37,7 @@ x402 needs settlement that is instant, cheap, and programmable. BSV's fee model 
 
 ## How to work with the factory
 
-We take two kinds of engagements: **[Agent-ready API in 48 hours](/factory/agent-ready-api/)** for teams who want one API monetized, and a **[Software factory week](/factory/factory-week/)** for a system like the ones on this site. Both are fixed scope, fixed price, and ship code you own.
+We take three kinds of engagements: **[Agent-ready API in 48 hours](/factory/agent-ready-api/)** for teams who want one API monetized, a **[Software factory week](/factory/factory-week/)** for a system like the ones on this site, and **[done-for-you Cloudflare migrations](/cloudflare-migration/)** for teams leaving AWS, Vercel, Heroku, or traditional hosting. Engagements are fixed scope, and ship code or infrastructure you own.
 
 ## FAQ
 

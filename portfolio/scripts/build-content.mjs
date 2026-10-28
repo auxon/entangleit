@@ -275,6 +275,7 @@ function renderPage(route, bodyHtml, faqs) {
       <div class="head">
         <a class="brand" href="/"><i></i>ENTANGLEIT</a>
         <nav>
+          <a href="/cloudflare-migration/">Migration</a>
           <a href="/agentpay/">agentpay</a>
           <a href="/x402gateway/">x402 Gateway</a>
           <a href="/x402market/">x402market</a>
@@ -292,6 +293,7 @@ ${bodyHtml}      </article>
       <div class="related">
         <h2>Keep going</h2>
         <ul>
+          <li><a href="/cloudflare-migration/">Cloudflare migration — done-for-you moves</a></li>
           <li><a href="/agentpay/">agentpay — prepaid wallets for agents</a></li>
           <li><a href="/x402gateway/">x402 Gateway — sell any API to agents</a></li>
           <li><a href="/x402market/">x402market — paid API discovery</a></li>
@@ -383,6 +385,9 @@ writeFileSync(join(outDir, "sitemap.xml"), sitemapXml(sitemapRoutes));
 const productLines = APP_ROUTES.filter((r) => r.type === "app")
   .map((r) => `- [${r.name}](${SITE}${r.path}): ${r.description}`)
   .join("\n");
+const serviceLines = APP_ROUTES.filter((r) => r.type === "factory")
+  .map((r) => `- [${r.title}](${SITE}${r.path}): ${r.description}`)
+  .join("\n");
 const contentLines = SECTION_ORDER.flatMap((section) => {
   const pages = content.filter((p) => SECTION[p.type] === section);
   if (!pages.length) return [];
@@ -399,7 +404,7 @@ const llms = `# EntangleIT
 ## Products
 ${productLines}
 
-${contentLines}
+${serviceLines ? `## Services\n${serviceLines}\n\n` : ""}${contentLines}
 ## Machine endpoints
 - MCP (agentpay): ${SITE}/api/agentpay/mcp — 22 tools for balances, payments, services, and bounties
 - x402market registry: ${SITE}/x402market/ — verified paid services with live 402 quotes

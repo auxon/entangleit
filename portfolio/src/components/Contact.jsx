@@ -1,33 +1,37 @@
 import React, { useEffect, useState } from 'react'
-import { EMAIL, LINKEDIN, MAILTO, RESUME } from '../site'
+import { EMAIL, LINKEDIN, MAILTO, RESUME, migrationPackages } from '../site'
 
 const offerOptions = [
   { value: 'agent-build', label: 'Production agent build (from $12,500)' },
   { value: 'audit', label: 'AI Opportunity Audit ($1,500)' },
+  ...migrationPackages.map((pkg) => ({
+    value: pkg.id,
+    label: `${pkg.name} (${pkg.price})`,
+  })),
   { value: 'other', label: 'Something else' },
 ]
 
-function offerFromLocation() {
-  if (typeof window === 'undefined') return 'agent-build'
+function offerFromLocation(fallback = 'agent-build') {
+  if (typeof window === 'undefined') return fallback
   const fromQuery = new URLSearchParams(window.location.search).get('offer')
   const fromHash = new URLSearchParams(window.location.hash.split('?')[1] || '').get('offer')
   const value = fromQuery || fromHash
-  return offerOptions.some((o) => o.value === value) ? value : 'agent-build'
+  return offerOptions.some((o) => o.value === value) ? value : fallback
 }
 
-export default function Contact({ variant = 'home' }) {
-  const [offer, setOffer] = useState(offerFromLocation)
+export default function Contact({ variant = 'home', defaultOffer = 'agent-build' }) {
+  const [offer, setOffer] = useState(() => offerFromLocation(defaultOffer))
   const [sent, setSent] = useState(false)
 
   useEffect(() => {
-    const sync = () => setOffer(offerFromLocation())
+    const sync = () => setOffer(offerFromLocation(defaultOffer))
     window.addEventListener('hashchange', sync)
     window.addEventListener('popstate', sync)
     return () => {
       window.removeEventListener('hashchange', sync)
       window.removeEventListener('popstate', sync)
     }
-  }, [])
+  }, [defaultOffer])
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -54,10 +58,12 @@ export default function Contact({ variant = 'home' }) {
         <div className="contact-content">
           <p>
             {variant === 'about'
-              ? 'Email is the catch. Book a production agent build, start with an audit, or ask about anything else.'
+              ? 'Email is the catch. Book a production agent build, a Cloudflare migration, start with an audit, or ask about anything else.'
               : variant === 'lab'
-                ? 'Like what the factory ships? The lab runs live — and the same team builds production agents for businesses. Email is the catch.'
-                : 'Book a 20-minute fit call or start with an AI Opportunity Audit. Email is the catch — the form opens your mail client.'}
+                ? 'Like what the factory ships? The lab runs live — and the same team builds production agents and Cloudflare migrations. Email is the catch.'
+                : variant === 'migration'
+                  ? 'Book a free 20-minute assessment call. Email is the catch — the form opens your mail client.'
+                : 'Book a 20-minute fit call, a Cloudflare migration assessment, or start with an AI Opportunity Audit. Email is the catch — the form opens your mail client.'}
           </p>
           <p className="contact-email">
             <a href={MAILTO}>{EMAIL}</a>
@@ -84,7 +90,16 @@ export default function Contact({ variant = 'home' }) {
             </label>
             <label>
               Message
-              <textarea name="message" rows="4" required placeholder="Which workflow hurts the most?" />
+              <textarea
+                name="message"
+                rows="4"
+                required
+                placeholder={
+                  variant === 'migration'
+                    ? 'What are you hosting today, and what do you want to move?'
+                    : 'Which workflow hurts the most?'
+                }
+              />
             </label>
             <button type="submit" className="btn btn-primary">
               Email Richard

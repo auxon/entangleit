@@ -8,8 +8,9 @@ import Offer from './components/Offer'
 import Archive from './components/Archive'
 import Contact from './components/Contact'
 import Nav from './components/Nav'
+import CloudflareMigration from './components/CloudflareMigration'
 import { useRoute } from './route'
-import { SITE_DESCRIPTION, SITE_TITLE, TITLE } from './site'
+import { MIGRATION_DESCRIPTION, MIGRATION_TITLE, SITE_DESCRIPTION, SITE_TITLE, TITLE } from './site'
 
 function setMeta(title, description) {
   document.title = title
@@ -66,13 +67,26 @@ function AboutPage() {
   )
 }
 
+function MigrationPage() {
+  useEffect(() => {
+    setMeta(MIGRATION_TITLE, MIGRATION_DESCRIPTION)
+  }, [])
+
+  return (
+    <main>
+      <CloudflareMigration />
+      <Contact variant="migration" defaultOffer="cf-assessment" />
+    </main>
+  )
+}
+
 function App() {
-  const { isAbout, isLab, navigate } = useRoute()
+  const { isAbout, isLab, isMigration, navigate } = useRoute()
 
   return (
     <>
       <Nav navigate={navigate} />
-      {isAbout ? <AboutPage /> : isLab ? <LabPage /> : <Home />}
+      {isAbout ? <AboutPage /> : isLab ? <LabPage /> : isMigration ? <MigrationPage /> : <Home />}
     </>
   )
 }
