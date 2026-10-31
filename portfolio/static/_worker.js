@@ -7,7 +7,9 @@
  * Game backends (/wot/ws|health|auth, /gachago/api) proxy to service
  * bindings (WOT_API, GACHAGO_API) configured on the Pages project.
  * /satsbridge is offline pending regulatory review (410 Gone).
- * Portfolio SPA owns /, /about, /lab, and /cloudflare-migration.
+ * Portfolio SPA owns /, /about, /lab, /pay, and /cloudflare-migration.
+ * POST /pay/checkout creates the $750 Stripe Checkout session (or returns
+ * a Payment Link). It does not intercept /api/* or other product Workers.
  *
  * Project merge scripts (ASLTutor, WoT, GatchaGo, ...) must only copy built
  * assets into public/<mount>/ — NEVER overwrite this file. The SEO map and
@@ -35,12 +37,12 @@ const SEO = /*__SEO_MAP__*/{
   routes: [
     {
       path: "/",
-      title: "EntangleIT — Software for an agent economy",
+      title: "EntangleIT — Your agent takes money without you in the loop",
       description:
-        "An agent-first software factory: prepaid agent wallets, pay-per-call APIs, discovery markets, gateways, and MCP tools — live on Cloudflare, Stripe, and Bitcoin SV.",
+        "Stripe for agents: a $750 / 48-hour install of the agent economy stack — agentpay wallet, x402 charge, x402market discovery, and bounties. Live on entangleit.com.",
       og: "https://entangleit.com/og-card.png",
       summary:
-        "EntangleIT builds the rails agents run on: agentpay, x402market, x402 Gateway, and BSVBounties.",
+        "Your agent takes money without you in the loop. The $750 / 48-hour Stripe for agents install puts agentpay, x402, x402market, and bounties on your origin.",
       links: [],
     },
   ],
@@ -556,9 +558,103 @@ const PORTFOLIO = new Set([
   "/about/",
   "/lab",
   "/lab/",
+  "/pay",
+  "/pay/",
   "/cloudflare-migration",
   "/cloudflare-migration/",
 ]);
+
+const PAY_JSON = { "content-type": "application/json", "cache-control": "no-store" };
+const PAY_AMOUNT_CENTS = 75000;
+const PAY_PRODUCT_NAME = "Stripe for agents install";
+
+function payConfigured(env) {
+  return Boolean(
+    (env.STRIPE_INSTALL_PAYMENT_LINK && String(env.STRIPE_INSTALL_PAYMENT_LINK).trim()) ||
+      (env.STRIPE_SECRET_KEY && String(env.STRIPE_SECRET_KEY).trim()),
+  );
+}
+
+function paySuffix() {
+  const alphabet = "abcdefghijklmnopqrstuvwxyz";
+  const bytes = crypto.getRandomValues(new Uint8Array(8));
+  let out = "";
+  for (const byte of bytes) out += alphabet[byte % 26];
+  return out;
+}
+
+async function createInstallCheckout(env, origin) {
+  const link = String(env.STRIPE_INSTALL_PAYMENT_LINK || "").trim();
+  if (link) return link;
+
+  const key = String(env.STRIPE_SECRET_KEY || "").trim();
+  if (!key) return null;
+
+  const success = `${origin}/pay?status=success`;
+  const cancel = `${origin}/pay?status=cancel`;
+  const body = new URLSearchParams();
+  body.set("mode", "payment");
+  body.set("success_url", success);
+  body.set("cancel_url", cancel);
+  body.set("integration_identifier", `entangleit-install-${paySuffix()}`);
+
+  const priceId = String(env.STRIPE_INSTALL_PRICE_ID || "").trim();
+  if (priceId) {
+    body.set("line_items[0][price]", priceId);
+    body.set("line_items[0][quantity]", "1");
+  } else {
+    const cents = Number(env.STRIPE_INSTALL_PRICE_CENTS) || PAY_AMOUNT_CENTS;
+    body.set("line_items[0][quantity]", "1");
+    body.set("line_items[0][price_data][currency]", "usd");
+    body.set("line_items[0][price_data][unit_amount]", String(cents));
+    body.set("line_items[0][price_data][product_data][name]", PAY_PRODUCT_NAME);
+    body.set(
+      "line_items[0][price_data][product_data][description]",
+      "48-hour agent economy stack: agentpay, x402, x402market, bounties",
+    );
+  }
+
+  const res = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+    method: "POST",
+    headers: {
+      authorization: `Bearer ${key}`,
+      "content-type": "application/x-www-form-urlencoded",
+      "stripe-version": "2026-09-30.endive",
+    },
+    body,
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok || !data.url) {
+    const message = data && data.error && data.error.message ? data.error.message : `stripe ${res.status}`;
+    throw new Error(message);
+  }
+  return data.url;
+}
+
+async function handlePayCheckout(request, env) {
+  if (request.method === "GET") {
+    return new Response(JSON.stringify({ configured: payConfigured(env) }), { headers: PAY_JSON });
+  }
+  if (request.method !== "POST") {
+    return new Response("Method not allowed", { status: 405 });
+  }
+  if (!payConfigured(env)) {
+    return new Response(JSON.stringify({ error: "checkout_offline" }), { status: 503, headers: PAY_JSON });
+  }
+  try {
+    const origin = new URL(request.url).origin;
+    const url = await createInstallCheckout(env, origin);
+    if (!url) {
+      return new Response(JSON.stringify({ error: "checkout_offline" }), { status: 503, headers: PAY_JSON });
+    }
+    return new Response(JSON.stringify({ url }), { headers: PAY_JSON });
+  } catch (error) {
+    return new Response(
+      JSON.stringify({ error: "checkout_error", detail: String((error && error.message) || error).slice(0, 200) }),
+      { status: 503, headers: PAY_JSON },
+    );
+  }
+}
 
 export default {
   async fetch(request, env) {
@@ -569,6 +665,11 @@ export default {
     // Homepage demo audit agent (handled by this worker; not /api/*).
     if (pathname === "/demo-audit") {
       return handleDemoAudit(request, env);
+    }
+
+    // $750 install checkout. Does not touch /api/* product payment routes.
+    if (pathname === "/pay/checkout") {
+      return handlePayCheckout(request, env);
     }
 
     // API/auth belong to their own Workers (Worker Routes).
@@ -704,7 +805,7 @@ export default {
     // Never SPA-fallback static files: PDFs/images unfurl as blank HTML.
     if (ASL_STATIC_EXT.test(pathname)) return notFound(env, url);
 
-    // Portfolio SPA owns /about/, /lab/, and /cloudflare-migration/; anything else is a real 404.
+    // Portfolio SPA owns /about/, /lab/, /pay/, and /cloudflare-migration/; anything else is a real 404.
     if (PORTFOLIO.has(pathname) && pathname !== "/") {
       return serveWithin(request, env, url, meta, true, "/index.html");
     }

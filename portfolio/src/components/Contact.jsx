@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { EMAIL, LINKEDIN, MAILTO, RESUME, migrationPackages } from '../site'
 
 const offerOptions = [
+  { value: 'stripe-install', label: 'Stripe for agents install ($750 / 48 hours)' },
   { value: 'agent-build', label: 'Production agent build (from $12,500)' },
   { value: 'audit', label: 'AI Opportunity Audit ($1,500)' },
   ...migrationPackages.map((pkg) => ({
@@ -19,7 +20,7 @@ function offerFromLocation(fallback = 'agent-build') {
   return offerOptions.some((o) => o.value === value) ? value : fallback
 }
 
-export default function Contact({ variant = 'home', defaultOffer = 'agent-build' }) {
+export default function Contact({ variant = 'home', defaultOffer = 'stripe-install' }) {
   const [offer, setOffer] = useState(() => offerFromLocation(defaultOffer))
   const [sent, setSent] = useState(false)
 
@@ -58,12 +59,14 @@ export default function Contact({ variant = 'home', defaultOffer = 'agent-build'
         <div className="contact-content">
           <p>
             {variant === 'about'
-              ? 'Email is the catch. Book a production agent build, a Cloudflare migration, start with an audit, or ask about anything else.'
+              ? 'Email is the catch. Book a Stripe for agents install, a production agent build, a Cloudflare migration, or ask about anything else.'
               : variant === 'lab'
-                ? 'Like what the factory ships? The lab runs live — and the same team builds production agents and Cloudflare migrations. Email is the catch.'
+                ? 'Like what the factory ships? The lab runs live — start with the $750 / 48-hour Stripe for agents install, or ask about a custom build.'
                 : variant === 'migration'
                   ? 'Book a free 20-minute assessment call. Email is the catch — the form opens your mail client.'
-                : 'Book a 20-minute fit call, a Cloudflare migration assessment, or start with an AI Opportunity Audit. Email is the catch — the form opens your mail client.'}
+                  : variant === 'pay'
+                    ? 'Prefer not to check out here? Email is the catch — same $750 / 48-hour Stripe for agents install.'
+                    : 'The $750 / 48-hour Stripe for agents install is the front door. Email is the catch if you want to talk first.'}
           </p>
           <p className="contact-email">
             <a href={MAILTO}>{EMAIL}</a>

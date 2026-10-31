@@ -4,13 +4,22 @@ import About from './components/About'
 import Experience from './components/Experience'
 import Skills from './components/Skills'
 import Products from './components/Products'
-import Offer from './components/Offer'
+import Home from './components/Home'
+import Pay from './components/Pay'
 import Archive from './components/Archive'
 import Contact from './components/Contact'
 import Nav from './components/Nav'
 import CloudflareMigration from './components/CloudflareMigration'
 import { useRoute } from './route'
-import { MIGRATION_DESCRIPTION, MIGRATION_TITLE, SITE_DESCRIPTION, SITE_TITLE, TITLE } from './site'
+import {
+  MIGRATION_DESCRIPTION,
+  MIGRATION_TITLE,
+  PAY_DESCRIPTION,
+  PAY_TITLE,
+  SITE_DESCRIPTION,
+  SITE_TITLE,
+  TITLE,
+} from './site'
 
 function setMeta(title, description) {
   document.title = title
@@ -18,15 +27,28 @@ function setMeta(title, description) {
   if (tag) tag.setAttribute('content', description)
 }
 
-function Home() {
+function HomePage({ navigate }) {
   useEffect(() => {
     setMeta(SITE_TITLE, SITE_DESCRIPTION)
   }, [])
 
   return (
     <main>
-      <Offer />
+      <Home navigate={navigate} />
       <Contact variant="home" />
+    </main>
+  )
+}
+
+function PayPage() {
+  useEffect(() => {
+    setMeta(PAY_TITLE, PAY_DESCRIPTION)
+  }, [])
+
+  return (
+    <main>
+      <Pay />
+      <Contact variant="pay" />
     </main>
   )
 }
@@ -81,12 +103,22 @@ function MigrationPage() {
 }
 
 function App() {
-  const { isAbout, isLab, isMigration, navigate } = useRoute()
+  const { isAbout, isLab, isMigration, isPay, navigate } = useRoute()
 
   return (
     <>
       <Nav navigate={navigate} />
-      {isAbout ? <AboutPage /> : isLab ? <LabPage /> : isMigration ? <MigrationPage /> : <Home />}
+      {isAbout ? (
+        <AboutPage />
+      ) : isLab ? (
+        <LabPage />
+      ) : isMigration ? (
+        <MigrationPage />
+      ) : isPay ? (
+        <PayPage />
+      ) : (
+        <HomePage navigate={navigate} />
+      )}
     </>
   )
 }

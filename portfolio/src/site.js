@@ -7,9 +7,31 @@ export const YEARS = 28
 
 export const TITLE = 'Founder · EntangleIT'
 
-export const SITE_TITLE = 'EntangleIT — Production AI agents in 14 days'
+export const LOGO_SRC = '/logo.png'
+export const LOGO_WIDTH = 982
+export const LOGO_HEIGHT = 892
+
+export const PAY_PATH = '/pay'
+export const PAY_CHECKOUT_PATH = '/pay/checkout'
+export const INSTALL_PRICE = 750
+export const INSTALL_HOURS = 48
+export const INSTALL_CTA = `$${INSTALL_PRICE} / ${INSTALL_HOURS}-hour Stripe for agents install`
+
+export const SITE_TITLE = 'EntangleIT — Your agent takes money without you in the loop'
 export const SITE_DESCRIPTION =
-  'EntangleIT designs, builds, and ships production AI agents in 2 weeks, fixed price. One useful agent on your data and workflows — from $12,500. AI Opportunity Audit, $1,500, credited toward a build.'
+  'Stripe for agents: a $750 / 48-hour install of the agent economy stack — agentpay wallet, x402 charge, x402market discovery, and bounties. Live on entangleit.com.'
+
+export const PAY_TITLE = 'Pay · Stripe for agents install — $750 / 48 hours'
+export const PAY_DESCRIPTION =
+  'Checkout for the $750 / 48-hour Stripe for agents install. Wallets, charge, discovery, and bounties — the same stack running live on this origin.'
+
+/** What's in the $750 install. HSCI and PeekARoom stay off this list. */
+export const AGENT_STACK = [
+  { name: 'agentpay', role: 'wallet', href: '/agentpay/' },
+  { name: 'x402', role: 'charge', href: '/x402gateway' },
+  { name: 'x402market', role: 'find tools', href: '/x402market/' },
+  { name: 'bounties', role: 'get paid', href: '/bsvbounties/' },
+]
 
 export const MIGRATION_PATH = '/cloudflare-migration'
 export const MIGRATION_TITLE = 'Cloudflare migration — EntangleIT'

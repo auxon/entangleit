@@ -25,14 +25,14 @@ export const APP_ROUTES = [
   {
     path: "/",
     type: "home",
-    title: "EntangleIT — Production AI agents in 14 days",
+    title: "EntangleIT — Your agent takes money without you in the loop",
     description:
-      "EntangleIT designs, builds, and ships production AI agents in 2 weeks, fixed price. One useful agent on your data and workflows — from $12,500. AI Opportunity Audit, $1,500, credited toward a build.",
+      "Stripe for agents: a $750 / 48-hour install of the agent economy stack — agentpay wallet, x402 charge, x402market discovery, and bounties. Live on entangleit.com.",
     og: "/og-card.png",
     summary:
-      "EntangleIT is an agent-first software factory. The wedge: one production AI agent, live in your business in 14 days, fixed price from $12,500. Proof: production agents for Roofstock and Cognilore.",
+      "Your agent takes money without you in the loop. The $750 / 48-hour Stripe for agents install puts agentpay, x402, x402market, and bounties on your origin.",
     links: [
-      { href: "/cloudflare-migration/", label: "Cloudflare migration — done-for-you moves off AWS, Vercel, Heroku" },
+      { href: "/pay/", label: "$750 / 48-hour Stripe for agents install" },
       { href: "/lab/", label: "Lab — live agent-economy products" },
       { href: "/agentpay/", label: "agentpay — prepaid USD wallets for AI agents" },
       { href: "/x402market/", label: "x402market — paid APIs for agents" },
@@ -50,10 +50,29 @@ export const APP_ROUTES = [
     summary:
       "EntangleIT migrates apps, APIs, and sites onto Cloudflare. Starting-at packages: Migration Assessment $499, Standard Migration $2,000, Full Migration $6,000+, plus an optional monthly care plan. Proof is the live stack on this origin — agentpay, x402 Gateway, x402market, BSVBounties, Brainstorm, and Leak.",
     links: [
-      { href: "/", label: "Home — production AI agents in 14 days" },
-      { href: "/#cloudflare-migration", label: "Homepage feature — packages at a glance" },
+      { href: "/", label: "Home — Your agent takes money without you in the loop" },
+      { href: "/cloudflare-migration/", label: "Cloudflare migration — packages and process" },
       { href: "/agentpay/", label: "agentpay — live on Cloudflare Workers" },
       { href: "/lab/", label: "Lab — other live Cloudflare products" },
+    ],
+    sitemap: { priority: 0.9, changefreq: "weekly" },
+  },
+  {
+    path: "/pay/",
+    type: "factory",
+    title: "Pay · Stripe for agents install — $750 / 48 hours",
+    description:
+      "Checkout for the $750 / 48-hour Stripe for agents install. Wallets, charge, discovery, and bounties — the same stack running live on this origin.",
+    og: "/og-card.png",
+    price: 750,
+    summary:
+      "Proof and checkout for the $750 / 48-hour Stripe for agents install: agentpay (wallet) → x402 (charge) → x402market (find tools) → bounties (get paid).",
+    links: [
+      { href: "/", label: "Home — Your agent takes money without you in the loop" },
+      { href: "/agentpay/", label: "agentpay — wallet" },
+      { href: "/x402gateway/", label: "x402 — charge" },
+      { href: "/x402market/", label: "x402market — find tools" },
+      { href: "/bsvbounties/", label: "bounties — get paid" },
     ],
     sitemap: { priority: 0.9, changefreq: "weekly" },
   },
@@ -67,7 +86,7 @@ export const APP_ROUTES = [
     summary:
       "The EntangleIT lab — the product museum behind the factory: agentpay, x402market, x402 Gateway, BSVBounties, bsvOS, and more, all running live.",
     links: [
-      { href: "/", label: "Home — production AI agents in 14 days" },
+      { href: "/", label: "Home — Your agent takes money without you in the loop" },
       { href: "/agentpay/", label: "agentpay" },
       { href: "/bsvbounties/", label: "BSVBounties" },
     ],
@@ -83,7 +102,7 @@ export const APP_ROUTES = [
     summary:
       "EntangleIT is an agent-first software factory. Every product runs live on this origin: wallets, pay-per-call APIs, a discovery market, a seller gateway, and an agent job board with on-chain escrow.",
     links: [
-      { href: "/", label: "Home — Software for an agent economy" },
+      { href: "/", label: "Home — Your agent takes money without you in the loop" },
       { href: "/agentpay/", label: "agentpay" },
       { href: "/bsvbounties/", label: "BSVBounties" },
       { href: "/factory/agent-ready-api/", label: "Agent-ready API in 48 hours" },
@@ -178,7 +197,7 @@ export const APP_ROUTES = [
     summary:
       "BitcoinZip sends BTC by paying a few sats of BSV: a pre-signed sweep transaction is encrypted to the recipient and delivered in a BSV OP_RETURN. No custody, no liquidity needed.",
     links: [
-      { href: "/", label: "Home — Software for an agent economy" },
+      { href: "/", label: "Home — Your agent takes money without you in the loop" },
       { href: "/x402market/", label: "x402market — paid APIs for agents" },
       { href: "/agentpay/", label: "agentpay — prepaid wallets for agents" },
     ],
@@ -195,7 +214,7 @@ export const APP_ROUTES = [
     summary:
       "A browser-based Wheel of Time MMO with game API, auth, and real-time play. The Wheel weaves as the Wheel wills.",
     links: [
-      { href: "/", label: "Home — Software for an agent economy" },
+      { href: "/", label: "Home — Your agent takes money without you in the loop" },
       { href: "/gachago", label: "GatchaGo — draw and animate chibi characters" },
       { href: "/ASLTutor/", label: "ASLTutor — learn American Sign Language" },
     ],
@@ -212,7 +231,7 @@ export const APP_ROUTES = [
     summary:
       "GatchaGo is a browser toy for drawing, customizing, and animating chibi characters.",
     links: [
-      { href: "/", label: "Home — Software for an agent economy" },
+      { href: "/", label: "Home — Your agent takes money without you in the loop" },
       { href: "/wot/", label: "The Wheel of Time — MMO" },
       { href: "/ASLTutor/", label: "ASLTutor — learn American Sign Language" },
     ],

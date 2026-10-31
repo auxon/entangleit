@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react'
+import BrandMark from './BrandMark'
 
 const navItems = [
-  { href: '/', label: 'Offer' },
-  { href: '/cloudflare-migration', label: 'Migration' },
+  { href: '/', label: 'Home' },
+  { href: '/pay', label: 'Install' },
   { href: '/lab', label: 'Lab' },
-  { href: '/agentpay/', label: 'agentpay' },
-  { href: '/x402market/', label: 'x402market' },
-  { href: '/x402gateway', label: 'x402gateway' },
-  { href: '/vibecoded/', label: 'Vibecoded' },
-  { href: '/bitcoinzip/', label: 'BitcoinZip' },
-  { href: '/leak/', label: 'Leak' },
+  { href: '/cloudflare-migration', label: 'Migration' },
   { href: '/about', label: 'About' },
 ]
 
@@ -39,7 +35,7 @@ export default function Nav({ navigate }) {
           onClick={() => go('/')}
           aria-label="EntangleIT home"
         >
-          EI
+          <BrandMark className="brand-mark nav-mark" size={36} />
         </button>
 
         <ul className="nav-links">

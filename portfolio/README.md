@@ -1,13 +1,16 @@
 # EntangleIT
 
-Vite React SPA for [entangleit.com](https://entangleit.com). Homepage is products and CARD. Résumé, timeline, and older projects live on `/about`.
+Vite React SPA for [entangleit.com](https://entangleit.com). Homepage is the $750 / 48-hour Stripe for agents install. Résumé, timeline, and older projects live on `/about`.
 
 ## Routes
 
-- `/` — production AI agent offer, plus a featured Cloudflare migration section
+- `/` — official EntangleIT mark, locked headline, one CTA to `/pay`, then the Agent Economy Stack
+- `/pay` — proof and checkout for the $750 / 48-hour install (POST `/pay/checkout`)
+- `/lab` — live product museum (HSCI and PeekARoom stay here, not on the hero)
 - `/cloudflare-migration` — done-for-you Cloudflare migration packages, process, and CTA
 - `/about` — founder copy, experience, skills, archive
 - `/resume.pdf` — static PDF (do not remove)
+- `/logo.png` — official fractal golden-spiral brain mark (no wordmark)
 - `/og-card.png` — 1200×630 Open Graph / LinkedIn preview (product branding, no personal name)
 
 ## Development
