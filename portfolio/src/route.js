@@ -42,7 +42,13 @@ export function useRoute() {
     const dest = next + url.search + hash
     const current = normalizePath(window.location.pathname)
 
-    if (next !== '/' && next !== '/about' && next !== '/lab' && next !== '/cloudflare-migration') {
+    if (
+      next !== '/' &&
+      next !== '/about' &&
+      next !== '/lab' &&
+      next !== '/cloudflare-migration' &&
+      next !== '/pay'
+    ) {
       window.location.assign(url.pathname + url.search + url.hash)
       return
     }
@@ -65,5 +71,6 @@ export function useRoute() {
     isAbout: path === '/about',
     isLab: path === '/lab',
     isMigration: path === '/cloudflare-migration',
+    isPay: path === '/pay',
   }
 }

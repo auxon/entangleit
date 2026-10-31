@@ -1,5 +1,7 @@
 export const EMAIL = 'richard.hein@gmail.com'
 export const MAILTO = `mailto:${EMAIL}`
+export const INSTALL_MAILTO =
+  'mailto:rah@entangleit.com?subject=%24750%20agent%20install'
 export const LINKEDIN = 'https://www.linkedin.com/in/richardhein/'
 export const DIY_KIT = 'https://richardheinz.gumroad.com/l/yycmri'
 export const RESUME = '/resume.pdf'
@@ -7,9 +9,22 @@ export const YEARS = 28
 
 export const TITLE = 'Founder · EntangleIT'
 
-export const SITE_TITLE = 'EntangleIT — Production AI agents in 14 days'
+export const SITE_TITLE = 'EntangleIT — Your agent takes money without you in the loop'
 export const SITE_DESCRIPTION =
-  'EntangleIT designs, builds, and ships production AI agents in 2 weeks, fixed price. One useful agent on your data and workflows — from $12,500. AI Opportunity Audit, $1,500, credited toward a build.'
+  'A $750 / 48h agent install: prepaid wallets, x402 charges, tool discovery, and bounties. $2,500 / 7-day custom MVP. ReceiptMirror receipts +$99.'
+export const PAY_PATH = '/pay'
+export const PAY_TITLE = 'Human pays the deposit. Agent proves the receipt. — EntangleIT'
+export const PAY_DESCRIPTION =
+  'Stripe-for-agents demo: a human pays the deposit by card; the agent pays and proves the spend with an x402 receipt. Static walkthrough only.'
+export const LOGO = '/entangleit-logo.png'
+export const LOGO_HERO = '/entangleit-logo-512.webp'
+
+export const STACK_STRIP = [
+  { name: 'agentpay', role: 'wallet' },
+  { name: 'x402', role: 'charge' },
+  { name: 'x402market', role: 'find tools' },
+  { name: 'bounties', role: 'get paid' },
+]
 
 export const MIGRATION_PATH = '/cloudflare-migration'
 export const MIGRATION_TITLE = 'Cloudflare migration — EntangleIT'

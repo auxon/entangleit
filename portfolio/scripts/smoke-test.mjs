@@ -85,6 +85,14 @@ async function runSuite() {
     return `${jsRef} 200 ${res.contentType} ${res.bytes}B`;
   });
 
+  await check("pay demo", async () => {
+    const res = await get("/pay/");
+    assert(res.status === 200, `status ${res.status}`);
+    assert(res.contentType.includes("text/html"), `content-type ${res.contentType}`);
+    assert(res.body.includes('id="root"'), "no #root mount point");
+    return `200 text/html ${res.bytes}B`;
+  });
+
   await check("about page", async () => {
     const res = await get("/about/");
     assert(res.status === 200, `status ${res.status}`);
