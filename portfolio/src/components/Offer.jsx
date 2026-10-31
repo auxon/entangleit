@@ -1,7 +1,7 @@
 import React from 'react'
 import DemoAgent from './DemoAgent'
 import MigrationFeature from './MigrationFeature'
-import { MAILTO, MIGRATION_PATH } from '../site'
+import { INSTALL_MAILTO, LOGO, MAILTO, PAY_PATH, STACK_STRIP } from '../site'
 
 const FIT_TYPES = ['Support triage', 'Document Q&A', 'Lead qualification', 'Internal operations']
 
@@ -12,57 +12,45 @@ const SCOPE = [
   '30 days of post-launch support',
 ]
 
-const TIMELINE = [
-  { when: 'DAY 0', what: 'Discover the highest-ROI workflow' },
-  { when: '01–10', what: 'Build on your data and tools' },
-  { when: '11–14', what: 'Deploy, test, and hand over' },
-  { when: '+30', what: 'Post-launch support included' },
-]
-
 export default function Offer() {
   return (
     <>
       <section className="offer-hero">
-        <div className="offer-hero-grid">
-          <div>
-            <p className="offer-kicker">One useful agent. Live in two weeks.</p>
-            <h1 className="offer-h1">A production AI agent, working in your business in 14 days.</h1>
-            <p className="offer-subhead">
-              I design, build, and deploy a custom AI agent on your data and your
-              workflows — in Slack, on your site, or inside your app. Fixed price.
-              You own everything.
-            </p>
-            <div className="offer-cta">
-              <a className="btn btn-primary" href={MAILTO}>
-                Book a 20-minute fit call
-              </a>
-              <a className="offer-text-link" href="#audit">
-                Start with an audit
-              </a>
-              <a className="offer-text-link" href={MIGRATION_PATH}>
-                Cloudflare migration
-              </a>
-            </div>
+        <div className="offer-hero-main">
+          <img
+            className="offer-logo"
+            src={LOGO}
+            alt="EntangleIT"
+            width="640"
+            height="640"
+            decoding="async"
+          />
+          <h1 className="offer-h1">Your agent takes money without you in the loop.</h1>
+          <div className="offer-cta">
+            <a className="btn btn-primary" href={INSTALL_MAILTO}>
+              Book a $750 / 48h install
+            </a>
+            <a className="offer-text-link" href={PAY_PATH}>
+              Demo
+            </a>
           </div>
-          <aside className="offer-panel" aria-label="Fourteen-day delivery plan">
-            <p className="offer-panel-label">Build window</p>
-            <div className="offer-day-count">
-              <strong>14</strong>
-              <span>
-                days to
-                <br />
-                production
-              </span>
-            </div>
-            <div className="offer-timeline">
-              {TIMELINE.map((row) => (
-                <div key={row.when} className="offer-timeline-row">
-                  <time>{row.when}</time>
-                  <p>{row.what}</p>
-                </div>
+          <div className="stack-strip" aria-label="Agent Economy Stack — what's in the $750 install">
+            <p className="stack-strip-title">
+              Agent Economy Stack — what&rsquo;s in the $750 install
+            </p>
+            <ol className="stack-strip-row">
+              {STACK_STRIP.map((item, index) => (
+                <li key={item.name} className="stack-strip-item">
+                  {index > 0 && <span className="stack-strip-arrow" aria-hidden="true">→</span>}
+                  <span className="stack-strip-name">{item.name}</span>
+                  <span className="stack-strip-role">({item.role})</span>
+                </li>
               ))}
-            </div>
-          </aside>
+            </ol>
+          </div>
+          <p className="offer-price-line">
+            $750 / 48h install · $2,500 / 7-day custom MVP · ReceiptMirror receipts +$99
+          </p>
         </div>
       </section>
 

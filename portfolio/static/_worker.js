@@ -7,7 +7,7 @@
  * Game backends (/wot/ws|health|auth, /gachago/api) proxy to service
  * bindings (WOT_API, GACHAGO_API) configured on the Pages project.
  * /satsbridge is offline pending regulatory review (410 Gone).
- * Portfolio SPA owns /, /about, /lab, and /cloudflare-migration.
+ * Portfolio SPA owns /, /about, /lab, /pay, and /cloudflare-migration.
  *
  * Project merge scripts (ASLTutor, WoT, GatchaGo, ...) must only copy built
  * assets into public/<mount>/ — NEVER overwrite this file. The SEO map and
@@ -556,6 +556,8 @@ const PORTFOLIO = new Set([
   "/about/",
   "/lab",
   "/lab/",
+  "/pay",
+  "/pay/",
   "/cloudflare-migration",
   "/cloudflare-migration/",
 ]);
@@ -704,7 +706,7 @@ export default {
     // Never SPA-fallback static files: PDFs/images unfurl as blank HTML.
     if (ASL_STATIC_EXT.test(pathname)) return notFound(env, url);
 
-    // Portfolio SPA owns /about/, /lab/, and /cloudflare-migration/; anything else is a real 404.
+    // Portfolio SPA owns /about/, /lab/, /pay/, and /cloudflare-migration/; anything else is a real 404.
     if (PORTFOLIO.has(pathname) && pathname !== "/") {
       return serveWithin(request, env, url, meta, true, "/index.html");
     }

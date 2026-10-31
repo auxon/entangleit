@@ -25,13 +25,14 @@ export const APP_ROUTES = [
   {
     path: "/",
     type: "home",
-    title: "EntangleIT — Production AI agents in 14 days",
+    title: "EntangleIT — Your agent takes money without you in the loop",
     description:
-      "EntangleIT designs, builds, and ships production AI agents in 2 weeks, fixed price. One useful agent on your data and workflows — from $12,500. AI Opportunity Audit, $1,500, credited toward a build.",
+      "A $750 / 48h agent install: prepaid wallets, x402 charges, tool discovery, and bounties. $2,500 / 7-day custom MVP. ReceiptMirror receipts +$99.",
     og: "/og-card.png",
     summary:
-      "EntangleIT is an agent-first software factory. The wedge: one production AI agent, live in your business in 14 days, fixed price from $12,500. Proof: production agents for Roofstock and Cognilore.",
+      "Your agent takes money without you in the loop. $750 / 48h install of the agent economy stack: agentpay, x402, x402market, and bounties.",
     links: [
+      { href: "/pay/", label: "Demo — human pays the deposit, agent proves the receipt" },
       { href: "/cloudflare-migration/", label: "Cloudflare migration — done-for-you moves off AWS, Vercel, Heroku" },
       { href: "/lab/", label: "Lab — live agent-economy products" },
       { href: "/agentpay/", label: "agentpay — prepaid USD wallets for AI agents" },
@@ -39,6 +40,22 @@ export const APP_ROUTES = [
       { href: "/about/", label: "About — Richard Hein, EntangleIT" },
     ],
     sitemap: { priority: 1.0, changefreq: "weekly" },
+  },
+  {
+    path: "/pay/",
+    type: "demo",
+    title: "Human pays the deposit. Agent proves the receipt. — EntangleIT",
+    description:
+      "Stripe-for-agents demo: a human pays the deposit by card; the agent pays and proves the spend with an x402 receipt. Static walkthrough only.",
+    og: "/og-card.png",
+    summary:
+      "Human pays the deposit. Agent proves the receipt. A static diagram of the Stripe-for-agents / x402 pattern — no live charges.",
+    links: [
+      { href: "/", label: "Home — $750 / 48h agent install" },
+      { href: "/agentpay/", label: "agentpay — prepaid wallets" },
+      { href: "/guide/x402-payments/", label: "Guide: how x402 payments work" },
+    ],
+    sitemap: { priority: 0.8, changefreq: "monthly" },
   },
   {
     path: "/cloudflare-migration/",
@@ -50,7 +67,7 @@ export const APP_ROUTES = [
     summary:
       "EntangleIT migrates apps, APIs, and sites onto Cloudflare. Starting-at packages: Migration Assessment $499, Standard Migration $2,000, Full Migration $6,000+, plus an optional monthly care plan. Proof is the live stack on this origin — agentpay, x402 Gateway, x402market, BSVBounties, Brainstorm, and Leak.",
     links: [
-      { href: "/", label: "Home — production AI agents in 14 days" },
+      { href: "/", label: "Home — $750 / 48h agent install" },
       { href: "/#cloudflare-migration", label: "Homepage feature — packages at a glance" },
       { href: "/agentpay/", label: "agentpay — live on Cloudflare Workers" },
       { href: "/lab/", label: "Lab — other live Cloudflare products" },
@@ -67,7 +84,7 @@ export const APP_ROUTES = [
     summary:
       "The EntangleIT lab — the product museum behind the factory: agentpay, x402market, x402 Gateway, BSVBounties, bsvOS, and more, all running live.",
     links: [
-      { href: "/", label: "Home — production AI agents in 14 days" },
+      { href: "/", label: "Home — $750 / 48h agent install" },
       { href: "/agentpay/", label: "agentpay" },
       { href: "/bsvbounties/", label: "BSVBounties" },
     ],

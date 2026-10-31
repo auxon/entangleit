@@ -9,8 +9,17 @@ import Archive from './components/Archive'
 import Contact from './components/Contact'
 import Nav from './components/Nav'
 import CloudflareMigration from './components/CloudflareMigration'
+import Pay from './components/Pay'
 import { useRoute } from './route'
-import { MIGRATION_DESCRIPTION, MIGRATION_TITLE, SITE_DESCRIPTION, SITE_TITLE, TITLE } from './site'
+import {
+  MIGRATION_DESCRIPTION,
+  MIGRATION_TITLE,
+  PAY_DESCRIPTION,
+  PAY_TITLE,
+  SITE_DESCRIPTION,
+  SITE_TITLE,
+  TITLE,
+} from './site'
 
 function setMeta(title, description) {
   document.title = title
@@ -80,13 +89,35 @@ function MigrationPage() {
   )
 }
 
+function PayPage() {
+  useEffect(() => {
+    setMeta(PAY_TITLE, PAY_DESCRIPTION)
+  }, [])
+
+  return (
+    <main>
+      <Pay />
+    </main>
+  )
+}
+
 function App() {
-  const { isAbout, isLab, isMigration, navigate } = useRoute()
+  const { isAbout, isLab, isMigration, isPay, navigate } = useRoute()
 
   return (
     <>
       <Nav navigate={navigate} />
-      {isAbout ? <AboutPage /> : isLab ? <LabPage /> : isMigration ? <MigrationPage /> : <Home />}
+      {isAbout ? (
+        <AboutPage />
+      ) : isLab ? (
+        <LabPage />
+      ) : isMigration ? (
+        <MigrationPage />
+      ) : isPay ? (
+        <PayPage />
+      ) : (
+        <Home />
+      )}
     </>
   )
 }
