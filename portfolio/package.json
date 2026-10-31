@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "node scripts/build-site.mjs",
     "build:site": "node scripts/build-site.mjs",
-    "build:pages": "vite build && node ../../vibecoded/scripts/build-vibecoded-only.mjs && node ../../x402market/scripts/build-merge.mjs && node ../../agentpay/scripts/build-merge.mjs && node ../../bitcoinzip/scripts/build-merge.mjs && bash ../../ASLTutor/scripts/prepare-entangleit-deploy.sh \"$PWD/public\" && bash ../../WoT/scripts/prepare-entangleit-deploy.sh \"$PWD/public\" && bash ../../GatchaGo/scripts/prepare-entangleit-deploy.sh \"$PWD/public\" && node scripts/build-content.mjs && node scripts/sync-worker-docs.mjs && node scripts/predeploy-check.mjs",
+    "build:pages": "vite build && node ../../vibecoded/scripts/build-vibecoded-only.mjs && node ../../x402market/scripts/build-merge.mjs && node ../../agentpay/scripts/build-merge.mjs && node ../../bitcoinzip/scripts/build-merge.mjs && node ../../bsvscriptlab/scripts/build-merge.mjs && node ../../satisfi/scripts/build-merge.mjs && node ../../heirloom/scripts/build-merge.mjs && bash ../../ASLTutor/scripts/prepare-entangleit-deploy.sh \"$PWD/public\" && bash ../../WoT/scripts/prepare-entangleit-deploy.sh \"$PWD/public\" && bash ../../GatchaGo/scripts/prepare-entangleit-deploy.sh \"$PWD/public\" && node scripts/build-content.mjs && node scripts/sync-worker-docs.mjs && node scripts/predeploy-check.mjs",
     "check": "node scripts/predeploy-check.mjs",
     "test:routes": "node scripts/test-routes.mjs",
     "smoke": "node scripts/smoke-test.mjs",
