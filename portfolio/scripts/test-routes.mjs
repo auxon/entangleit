@@ -39,7 +39,7 @@ assert(hero.includes("mailto:rah@entangleit.com?subject=%24750%20agent%20install
 assert(hero.includes("Demo"), "Demo link missing");
 assert(hero.includes("PAY_PATH"), "Demo should point at /pay");
 assert(!/hsci/i.test(hero) && !/peekaroom/i.test(hero), "HSCI/PeekARoom must stay off the hero");
-assert(hero.includes("entangleit-logo") || hero.includes("LOGO"), "hero must use the fractal-brain logo");
+assert(hero.includes("LOGO_HERO") || hero.includes("entangleit-logo"), "hero must use the fractal-brain logo");
 assert(hero.includes("ReceiptMirror receipts +$99"), "pricing line missing");
 
 const pay = readFileSync(join(root, "src/components/Pay.jsx"), "utf8");

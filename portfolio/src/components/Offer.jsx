@@ -1,7 +1,7 @@
 import React from 'react'
 import DemoAgent from './DemoAgent'
 import MigrationFeature from './MigrationFeature'
-import { INSTALL_MAILTO, LOGO, MAILTO, PAY_PATH, STACK_STRIP } from '../site'
+import { INSTALL_MAILTO, LOGO_HERO, MAILTO, PAY_PATH, STACK_STRIP } from '../site'
 
 const FIT_TYPES = ['Support triage', 'Document Q&A', 'Lead qualification', 'Internal operations']
 
@@ -19,10 +19,10 @@ export default function Offer() {
         <div className="offer-hero-main">
           <img
             className="offer-logo"
-            src={LOGO}
+            src={LOGO_HERO}
             alt="EntangleIT"
-            width="640"
-            height="640"
+            width="512"
+            height="465"
             decoding="async"
           />
           <h1 className="offer-h1">Your agent takes money without you in the loop.</h1>

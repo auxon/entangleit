@@ -17,6 +17,7 @@ export const PAY_TITLE = 'Human pays the deposit. Agent proves the receipt. — 
 export const PAY_DESCRIPTION =
   'Stripe-for-agents demo: a human pays the deposit by card; the agent pays and proves the spend with an x402 receipt. Static walkthrough only.'
 export const LOGO = '/entangleit-logo.png'
+export const LOGO_HERO = '/entangleit-logo-512.webp'
 
 export const STACK_STRIP = [
   { name: 'agentpay', role: 'wallet' },
